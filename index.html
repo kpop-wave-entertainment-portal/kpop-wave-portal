@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>K-Pop Wave Entertainment Portal</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
         .glass-panel {
@@ -15,48 +13,55 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        /* Premium custom scrollbar for the modal */
+        /* Custom scrollbar for the modal */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        
+        /* Google Translate Widget Styling Fixes for Dark Mode */
+        .goog-te-gadget { color: #94a3b8 !important; font-family: 'Inter', sans-serif !important; }
+        .goog-te-gadget select { background-color: #1e293b; color: white; border: 1px solid #334155; border-radius: 0.375rem; padding: 0.25rem; outline: none; }
     </style>
 </head>
 <body class="bg-slate-950 text-white antialiased selection:bg-pink-500 selection:text-white">
 
-    <!-- NAVIGATION BAR -->
+    <!-- NAVIGATION WITH GOOGLE TRANSLATE -->
     <nav class="fixed w-full z-50 glass-panel border-b-0 border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 tracking-tight">K-POP WAVE</span>
+            <div class="flex flex-col md:flex-row items-center justify-between h-auto md:h-16 py-3 md:py-0">
+                <div class="flex items-center gap-2 mb-3 md:mb-0">
+                    <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">K-POP WAVE</span>
                 </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#companies" class="hover:text-pink-400 px-3 py-2 rounded-md text-sm font-medium transition">Agencies</a>
-                        <a href="#artists" class="hover:text-pink-400 px-3 py-2 rounded-md text-sm font-medium transition">Artists</a>
-                        <button onclick="openModal()" class="hover:text-pink-400 px-3 py-2 rounded-md text-sm font-medium transition">Submit Inquiry</button>
+                
+                <div class="flex flex-col md:flex-row items-center gap-4">
+                    <!-- Google Translate Element -->
+                    <div id="google_translate_element"></div>
+                    
+                    <div class="hidden md:flex items-baseline space-x-6 mr-4">
+                        <a href="#companies" class="hover:text-pink-400 text-sm font-medium transition">Agencies</a>
+                        <a href="#artists" class="hover:text-pink-400 text-sm font-medium transition">Artists</a>
                     </div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <button onclick="openModal()" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 px-5 py-2 rounded-full text-sm font-bold transition shadow-lg shadow-pink-500/30">Portal Support</button>
+                    
+                    <button onclick="openModal('General', 'Portal Support')" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 px-4 py-2 rounded-full text-sm font-bold transition shadow-lg shadow-pink-500/30">Portal Support</button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <header class="pt-32 pb-20 px-4 text-center">
+    <!-- HERO HEADER -->
+    <header class="pt-40 pb-20 px-4 text-center">
         <div class="max-w-4xl mx-auto">
             <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
-                The Global Gateway to <br>
-                <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">K-Pop Entertainment</span>
+                Your Direct Line to <br>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">K-Pop's Biggest Stars</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
-                Official fan portal for membership booking, VIP upgrades, event support, and direct entertainment inquiries.
+                Submit fan inquiries, track tickets, manage memberships, and connect with any agency across the South Korean entertainment industry.
             </p>
             <div class="flex justify-center gap-4">
-                <button onclick="openModal()" class="bg-white text-slate-900 px-8 py-3 rounded-full font-bold hover:bg-slate-200 transition shadow-lg shadow-white/10">Submit an Inquiry</button>
+                <a href="#companies" class="bg-white text-slate-900 px-8 py-3 rounded-full font-bold hover:bg-slate-200 transition">Browse Agencies</a>
+                <button onclick="openModal('General', 'Any Agency')" class="glass-panel px-8 py-3 rounded-full font-bold hover:bg-white/10 transition">Submit Inquiry</button>
             </div>
         </div>
     </header>
@@ -64,24 +69,25 @@
     <!-- FEATURED PARTNER AGENCIES -->
     <section id="companies" class="py-16 bg-slate-900/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold mb-8 border-l-4 border-pink-500 pl-4">Partner Agencies</h2>
+            <h2 class="text-3xl font-bold mb-8 border-l-4 border-pink-500 pl-4">Featured Agencies</h2>
+            <p class="text-slate-400 mb-6">Select a featured agency below, or use the general inquiry form for any other South Korean entertainment company.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="glass-panel rounded-2xl p-6 hover:-translate-y-2 transition duration-300 cursor-pointer" onclick="openModal()">
+                <div class="glass-panel rounded-2xl p-6 hover:-translate-y-2 transition duration-300 cursor-pointer" onclick="openModal('BTS', 'BIGHIT MUSIC')">
                     <h3 class="text-xl font-bold mb-1">BIGHIT MUSIC</h3>
                     <span class="inline-block bg-purple-500/20 text-purple-300 text-xs px-2 py-1 rounded mb-3">HYBE</span>
                     <p class="text-slate-400 text-sm mb-4">Official support for BTS schedules, events, and memberships.</p>
                 </div>
-                <div class="glass-panel rounded-2xl p-6 hover:-translate-y-2 transition duration-300 cursor-pointer" onclick="openModal()">
+                <div class="glass-panel rounded-2xl p-6 hover:-translate-y-2 transition duration-300 cursor-pointer" onclick="openModal('Artists', 'FANTAGIO')">
                     <h3 class="text-xl font-bold mb-1">FANTAGIO</h3>
                     <span class="inline-block bg-purple-500/20 text-purple-300 text-xs px-2 py-1 rounded mb-3">Management</span>
-                    <p class="text-slate-400 text-sm mb-4">Official support for ASTRO and actors.</p>
+                    <p class="text-slate-400 text-sm mb-4">Official support for roster artists and actors.</p>
                 </div>
-                <div class="glass-panel rounded-2xl p-6 hover:-translate-y-2 transition duration-300 cursor-pointer" onclick="openModal()">
+                <div class="glass-panel rounded-2xl p-6 hover:-translate-y-2 transition duration-300 cursor-pointer" onclick="openModal('SF9/Bands', 'FNC Entertainment')">
                     <h3 class="text-xl font-bold mb-1">FNC Entertainment</h3>
                     <span class="inline-block bg-purple-500/20 text-purple-300 text-xs px-2 py-1 rounded mb-3">Agency</span>
-                    <p class="text-slate-400 text-sm mb-4">Official inquiries for SF9 and bands.</p>
+                    <p class="text-slate-400 text-sm mb-4">Official inquiries for SF9 and associated bands.</p>
                 </div>
-                <div class="glass-panel rounded-2xl p-6 hover:-translate-y-2 transition duration-300 cursor-pointer" onclick="openModal()">
+                <div class="glass-panel rounded-2xl p-6 hover:-translate-y-2 transition duration-300 cursor-pointer" onclick="openModal('Artists/Producers', 'THE BLACK LABEL')">
                     <h3 class="text-xl font-bold mb-1">THE BLACK LABEL</h3>
                     <span class="inline-block bg-purple-500/20 text-purple-300 text-xs px-2 py-1 rounded mb-3">Associate</span>
                     <p class="text-slate-400 text-sm mb-4">Inquiries for artists and producers under the label.</p>
@@ -94,129 +100,89 @@
     <footer class="border-t border-white/10 bg-slate-950 py-12 mt-12">
         <div class="max-w-7xl mx-auto px-4 text-center text-slate-500">
             <h2 class="text-xl font-bold text-white mb-4">K-POP WAVE ENTERTAINMENT PORTAL</h2>
-            <p class="mb-6">Dedicated support portal for fan services and agency communications.</p>
-            <p class="text-xs">&copy; 2026 K-Pop Wave. All Rights Reserved.</p>
+            <p class="mb-6">The ultimate worldwide fan gateway for K-Pop ticketing, merch, and agency communications.</p>
+            <p class="text-xs">&copy; 2026 K-Pop Wave Portal. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- INQUIRY MODAL (Contains precise configuration based on exact screenshots) -->
+    <!-- INQUIRY MODAL WITH FORMSPREE -->
     <div id="inquiryModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
         <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative">
             
-            <!-- Close Modal Icon Button -->
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800 rounded-full w-8 h-8 flex items-center justify-center text-xl">&times;</button>
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800 rounded-full w-8 h-8 flex items-center justify-center">&times;</button>
             
             <div class="p-6 md:p-8">
                 <h2 class="text-2xl font-bold mb-2">Submit Request</h2>
-                <p class="text-sm text-slate-400 mb-6 border-b border-slate-700 pb-4">Please fill out all required fields marked with an asterisk (*).</p>
+                <p class="text-sm text-slate-400 mb-6 border-b border-slate-700 pb-4">Please fill out all required fields marked with an asterisk (*). This portal services all South Korean entertainment agencies.</p>
                 
-                <!-- INTEGRATED FORMSPREE PIPELINE -->
+                <!-- FULLY CONNECTED FORMSPREE FORM -->
                 <form action="https://formspree.io/f/xykrybvv" method="POST" class="space-y-6">
                     
-                    <!-- Identification Contact Fields -->
+                    <!-- Basic Info -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <input type="text" name="Name" placeholder="* Full Name" required class="w-full bg-slate-800 text-white border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-pink-500 placeholder-slate-400">
+                        </div>
+                        <div>
+                            <input type="email" name="Email" placeholder="* Email Address" required class="w-full bg-slate-800 text-white border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-pink-500 placeholder-slate-400">
+                        </div>
+                    </div>
+
+                    <!-- Target Artist Group (Now includes "Other" for any agency) -->
+                    <div>
+                        <h3 class="font-bold text-white mb-3 text-sm md:text-base">* Target Agency / Group</h3>
+                        <div class="space-y-3 pl-2 text-slate-300">
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="radio" name="Target_Agency" value="BIGHIT / BTS" required class="w-5 h-5 accent-pink-500" onclick="toggleOtherAgency(false)"><span>BIGHIT / BTS</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="radio" name="Target_Agency" value="FANTAGIO" class="w-5 h-5 accent-pink-500" onclick="toggleOtherAgency(false)"><span>FANTAGIO</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="radio" name="Target_Agency" value="FNC / SF9" class="w-5 h-5 accent-pink-500" onclick="toggleOtherAgency(false)"><span>FNC / SF9</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="radio" name="Target_Agency" value="The Black Label" class="w-5 h-5 accent-pink-500" onclick="toggleOtherAgency(false)"><span>The Black Label</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="radio" name="Target_Agency" value="Other" class="w-5 h-5 accent-pink-500" onclick="toggleOtherAgency(true)"><span>Other Agency (Specify Below)</span>
+                            </label>
+                            
+                            <!-- Hidden input that shows when "Other" is clicked -->
+                            <input type="text" id="otherAgencyInput" name="Custom_Agency_Name" placeholder="Type the name of ANY South Korean Agency..." class="hidden w-full bg-slate-800 text-white border border-slate-600 rounded-lg px-4 py-2 mt-2 focus:outline-none focus:border-pink-500 placeholder-slate-500">
+                        </div>
+                    </div>
+
+                    <!-- Complete Unified Inquiry Type Matrix -->
+                    <div>
+                        <h3 class="font-bold text-white mb-3 text-sm md:text-base">* Inquiry Type</h3>
+                        <div class="space-y-3 pl-2 text-slate-300">
+                            <label class="flex items-start gap-3 cursor-pointer"><input type="radio" name="Inquiry_Type" value="Official Membership Card Booking" required class="w-5 h-5 mt-0.5 accent-pink-500"><span>Official Membership Card Booking</span></label>
+                            <label class="flex items-start gap-3 cursor-pointer"><input type="radio" name="Inquiry_Type" value="Fan Club Tier Upgrade (VIP/Premium/Gold)" class="w-5 h-5 mt-0.5 accent-pink-500"><span>Fan Club Tier Upgrade (VIP/Premium/Gold)</span></label>
+                            <label class="flex items-start gap-3 cursor-pointer"><input type="radio" name="Inquiry_Type" value="Event Ticketing Support" class="w-5 h-5 mt-0.5 accent-pink-500"><span>Event Ticketing Support</span></label>
+                            <label class="flex items-start gap-3 cursor-pointer"><input type="radio" name="Inquiry_Type" value="Report Fake Profiles & Imposters" class="w-5 h-5 mt-0.5 accent-pink-500"><span>Report Fake Profiles & Imposters</span></label>
+                            <label class="flex items-start gap-3 cursor-pointer"><input type="radio" name="Inquiry_Type" value="Meet & Greet/1-on-1 Meeting" class="w-5 h-5 mt-0.5 accent-pink-500"><span>Meet & Greet / 1-on-1 Meeting</span></label>
+                            <label class="flex items-start gap-3 cursor-pointer"><input type="radio" name="Inquiry_Type" value="Dinner Date Request (Post-Event)" class="w-5 h-5 mt-0.5 accent-pink-500"><span>Dinner Date Request (Post-Event)</span></label>
+                            <label class="flex items-start gap-3 cursor-pointer"><input type="radio" name="Inquiry_Type" value="Vacation & Contract Termination" class="w-5 h-5 mt-0.5 accent-pink-500"><span>Vacation & Contract Termination</span></label>
+                            <label class="flex items-start gap-3 cursor-pointer"><input type="radio" name="Inquiry_Type" value="Charity support e.g orphanage etc." class="w-5 h-5 mt-0.5 accent-pink-500"><span>Charity support (e.g., orphanage, etc.)</span></label>
+                            <label class="flex items-start gap-3 cursor-pointer"><input type="radio" name="Inquiry_Type" value="Book for membership card & VIP membership card" class="w-5 h-5 mt-0.5 accent-pink-500"><span>Book for membership card & VIP membership card</span></label>
+                            <label class="flex items-start gap-3 cursor-pointer"><input type="radio" name="Inquiry_Type" value="Registration for VIP membership benefit ($3.000)" class="w-5 h-5 mt-0.5 accent-pink-500"><span>Registration for VIP membership benefit ($3,000)</span></label>
+                            <label class="flex items-start gap-3 cursor-pointer"><input type="radio" name="Inquiry_Type" value="General Fan Advocacy Support" class="w-5 h-5 mt-0.5 accent-pink-500"><span>General Fan Advocacy Support</span></label>
+                            <label class="flex items-start gap-3 cursor-pointer"><input type="radio" name="Inquiry_Type" value="Favorite Idol Support / Photo Books" class="w-5 h-5 mt-0.5 accent-pink-500"><span>Favorite Idol Support / Photo Books</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Details Input -->
                     <div class="space-y-4">
                         <div>
-                            <input type="text" name="Name" placeholder="* Name" required class="w-full bg-white text-slate-900 border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 placeholder-slate-500 font-medium">
+                            <input type="text" name="Favorite_Kpop_Idol" placeholder="* Name of Your Favorite K-pop Idol" required class="w-full bg-slate-800 text-white border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-pink-500 placeholder-slate-400">
                         </div>
                         <div>
-                            <input type="email" name="Email" placeholder="* Email" required class="w-full bg-white text-slate-900 border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 placeholder-slate-500 font-medium">
+                            <textarea name="Inquiry_Details" rows="4" placeholder="* Provide Details Regarding Your Request" required class="w-full bg-slate-800 text-white border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-pink-500 placeholder-slate-400"></textarea>
                         </div>
                     </div>
 
-                    <!-- Target Artist Group Structural Selectors -->
-                    <div>
-                        <h3 class="font-bold text-white mb-3 text-sm md:text-base">* Target Artist / Group</h3>
-                        <div class="space-y-3 pl-2 text-slate-200">
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="radio" name="Target_Artist_Group" value="BTS" required class="w-5 h-5 accent-pink-500">
-                                <span>BTS</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="radio" name="Target_Artist_Group" value="FATAGIO/ASTRO" class="w-5 h-5 accent-pink-500">
-                                <span>FATAGIO/ASTRO</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="radio" name="Target_Artist_Group" value="FNC/ SF9" class="w-5 h-5 accent-pink-500">
-                                <span>FNC/ SF9</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="radio" name="Target_Artist_Group" value="Black Label" class="w-5 h-5 accent-pink-500">
-                                <span>Black Label 🏷️</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="radio" name="Target_Artist_Group" value="General Entertainment Inquiry" class="w-5 h-5 accent-pink-500">
-                                <span>General Entertainment Inquiry</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Complete Unified Inquiry Type Options Matrix -->
-                    <div>
-                        <h3 class="font-bold text-white mb-3 text-sm md:text-base">* Inquiry -Type</h3>
-                        <div class="space-y-3 pl-2 text-slate-200">
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="radio" name="Inquiry_Type" value="Official Membership Card Booking" required class="w-5 h-5 mt-0.5 accent-pink-500">
-                                <span>Official Membership Card Booking</span>
-                            </label>
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="radio" name="Inquiry_Type" value="Fan Club Tier Upgrade (VIP/Premium/Gold)" class="w-5 h-5 mt-0.5 accent-pink-500">
-                                <span>Fan Club Tier Upgrade (VIP/Premium/Gold)</span>
-                            </label>
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="radio" name="Inquiry_Type" value="Event Ticketing Support" class="w-5 h-5 mt-0.5 accent-pink-500">
-                                <span>Event Ticketing Support</span>
-                            </label>
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="radio" name="Inquiry_Type" value="Report Fake Profiles & Imposters" class="w-5 h-5 mt-0.5 accent-pink-500">
-                                <span>Report Fake Profiles & Imposters</span>
-                            </label>
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="radio" name="Inquiry_Type" value="Meet & Greet/1-on-1 Meeting" class="w-5 h-5 mt-0.5 accent-pink-500">
-                                <span>Meet & Greet/1-on-1 Meeting</span>
-                            </label>
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="radio" name="Inquiry_Type" value="Dinner Date Request (Post-Event)" class="w-5 h-5 mt-0.5 accent-pink-500">
-                                <span>Dinner Date Request (Post-Event)</span>
-                            </label>
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="radio" name="Inquiry_Type" value="Vacation & Contract Termination" class="w-5 h-5 mt-0.5 accent-pink-500">
-                                <span>Vacation & Contract Termination</span>
-                            </label>
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="radio" name="Inquiry_Type" value="Charity support e.g orphanage etc." class="w-5 h-5 mt-0.5 accent-pink-500">
-                                <span>Charity support e.g orphanage etc.</span>
-                            </label>
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="radio" name="Inquiry_Type" value="Book for membership card & VIP membership card" class="w-5 h-5 mt-0.5 accent-pink-500">
-                                <span>Book for membership card & VIP membership card</span>
-                            </label>
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="radio" name="Inquiry_Type" value="Registration for VIP membership benefit ($3.000)" class="w-5 h-5 mt-0.5 accent-pink-500">
-                                <span>Registration for VIP membership benefit ($3.000)</span>
-                            </label>
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="radio" name="Inquiry_Type" value="General Fan Advocacy Support, etc" class="w-5 h-5 mt-0.5 accent-pink-500">
-                                <span>General Fan Advocacy Support, etc</span>
-                            </label>
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="radio" name="Inquiry_Type" value="Favorite Idol Support / getting their Photo Books" class="w-5 h-5 mt-0.5 accent-pink-500">
-                                <span>Favorite Idol Support / getting their Photo Books</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Custom Context Textarea and Fields -->
-                    <div class="space-y-4">
-                        <div>
-                            <input type="text" name="Favorite_Kpop_Idol" placeholder="* »Name of Your Favorite K-pop Idol«" required class="w-full bg-white text-slate-900 border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 placeholder-slate-500 font-medium">
-                        </div>
-                        <div>
-                            <textarea name="Inquiry_Details" rows="4" placeholder="* Provide Details Regarding Your Request" required class="w-full bg-white text-slate-900 border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 placeholder-slate-500 font-medium"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Operational Buttons Footer Element -->
-                    <div class="pt-2 flex items-center justify-end gap-3 border-t border-slate-700 pb-2">
+                    <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-700 pb-2">
                         <button type="button" onclick="closeModal()" class="px-5 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">Cancel</button>
                         <button type="submit" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 px-8 py-3 rounded-lg text-sm font-bold text-white shadow-lg shadow-pink-500/30 transition">Submit Request</button>
                     </div>
@@ -225,11 +191,12 @@
         </div>
     </div>
 
-    <!-- UI MODAL ANIMATION HANDLING SCRIPTS -->
+    <!-- SCRIPTS -->
     <script>
         const modal = document.getElementById('inquiryModal');
+        const otherAgencyInput = document.getElementById('otherAgencyInput');
 
-        function openModal() {
+        function openModal(artistName, companyName) {
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             document.body.style.overflow = 'hidden';
@@ -241,12 +208,33 @@
             document.body.style.overflow = 'auto';
         }
 
+        function toggleOtherAgency(show) {
+            if (show) {
+                otherAgencyInput.classList.remove('hidden');
+                otherAgencyInput.setAttribute('required', 'true');
+            } else {
+                otherAgencyInput.classList.add('hidden');
+                otherAgencyInput.removeAttribute('required');
+            }
+        }
+
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
                 closeModal();
             }
         });
     </script>
+
+    <!-- GOOGLE TRANSLATE SCRIPT -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <!-- LIVE EMBEDDED TAWK.TO LIVE CHAT WIDGET -->
     <script type="text/javascript">
@@ -260,6 +248,7 @@
     s0.parentNode.insertBefore(s1,s0);
     })();
     </script>
-</body>
-</html>
 
+</body>
+    </html>
+    
