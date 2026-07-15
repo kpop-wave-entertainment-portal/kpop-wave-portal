@@ -1,103 +1,1902 @@
+html
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-Pop Wave Entertainment Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
-        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .page-view { display: none; }
-        .page-view.active { display: block; animation: fadeIn 0.4s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #ec4899; }
-        .goog-te-gadget { color: #94a3b8 !important; font-family: 'Inter', sans-serif !important; font-size: 14px; }
-        .goog-te-gadget select { background-color: #1e293b; color: white; border: 1px solid #475569; border-radius: 0.5rem; padding: 0.25rem; outline: none; cursor: pointer; }
-        .goog-logo-link { display: none !important; }
-        .goog-te-gadget .goog-te-combo { margin: 0; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-POP Multi-Agency Fan Portal</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            darkbg: '#08090e',
+            darkcard: '#11131c',
+            lightbg: '#f8fafc',
+            lightcard: '#ffffff',
+            neonpink: '#ff2e93',
+            violetglow: '#7000ff',
+            electricblue: '#00d2ff'
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* Custom Styling & Gradients */
+    .glass {
+      background: rgba(17, 19, 28, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .light .glass {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    
+    /* Interactive 3D Card Flip Animation */
+    .flip-card {
+      background-color: transparent;
+      perspective: 1000px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 1.5rem;
+      overflow: hidden;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #08090e;
+    }
+    .light ::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ff2e93;
+      border-radius: 4px;
+    }
+
+    /* Google Translate widget adaptation */
+    iframe.goog-te-banner-frame {
+      display: none !important;
+    }
+    body {
+      top: 0px !important;
+    }
+    .goog-te-gadget {
+      font-family: inherit !important;
+      font-size: 0px !important;
+    }
+    .goog-te-gadget .goog-te-combo {
+      background: rgba(17, 19, 28, 0.85);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+    }
+    .light .goog-te-gadget .goog-te-combo {
+      background: #ffffff;
+      color: #1e293b;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+  </style>
 </head>
-<body class="antialiased selection:bg-pink-500 selection:text-white">
+<body class="bg-darkbg text-slate-100 font-sans transition-colors duration-300 min-h-screen pb-16 md:pb-0 dark:bg-darkbg dark:text-slate-100 light:text-slate-800 light:bg-lightbg">
 
-    <nav class="fixed w-full z-50 glass-panel border-b-0">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row items-center justify-between h-auto lg:h-20 py-4 lg:py-0">
-                <div class="flex items-center cursor-pointer" onclick="switchPage('home')">
-                    <span class="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500">K-POP WAVE</span>
-                </div>
-                <div class="hidden lg:flex items-center space-x-6 text-sm font-semibold text-slate-300">
-                    <a href="#" onclick="switchPage('home')" class="hover:text-pink-400 transition">Home</a>
-                    <a href="#" onclick="switchPage('companies')" class="hover:text-pink-400 transition">Companies & Artists</a>
-                    <a href="#" onclick="switchPage('dashboard')" class="hover:text-pink-400 transition">My Dashboard</a>
-                </div>
-                <div class="flex flex-col sm:flex-row items-center gap-4 mt-4 lg:mt-0 w-full lg:w-auto">
-                    <div id="google_translate_element" class="mt-1"></div>
-                    <button onclick="switchPage('login')" class="text-sm font-semibold hover:text-pink-400 transition">Login / Register</button>
-                    <button onclick="switchPage('companies')" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white px-5 py-2 rounded-full text-sm font-bold shadow-lg shadow-pink-500/30 transition">Submit Inquiry</button>
-                </div>
-            </div>
+  <!-- ================= TOP STICKY NAVIGATION ================= -->
+  <header class="sticky top-0 z-50 transition-all duration-300 glass" id="global-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" onclick="navigateTo('home'); return false;" class="flex items-center space-x-2">
+        <span class="bg-gradient-to-r from-neonpink via-violetglow to-electricblue p-2 rounded-lg text-white font-black tracking-widest text-lg shadow-lg">K-POP</span>
+        <span class="font-black text-xl tracking-wide hidden sm:inline bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent dark:from-white dark:to-slate-400" id="logo-portal-text">PORTAL</span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex space-x-1 lg:space-x-4 text-sm font-semibold">
+        <button onclick="navigateTo('home')" class="nav-link px-3 py-2 rounded-lg hover:text-neonpink transition">Home</button>
+        <button onclick="navigateTo('companies')" class="nav-link px-3 py-2 rounded-lg hover:text-neonpink transition">Companies</button>
+        <button onclick="navigateTo('artists')" class="nav-link px-3 py-2 rounded-lg hover:text-neonpink transition">Artists</button>
+        <button onclick="navigateTo('inquiries')" class="nav-link px-3 py-2 rounded-lg hover:text-neonpink transition">Inquiries</button>
+        <button onclick="navigateTo('dashboard')" class="nav-link px-3 py-2 rounded-lg hover:text-neonpink transition">Dashboard</button>
+        <button onclick="navigateTo('admin')" class="nav-link px-3 py-2 rounded-lg hover:text-neonpink transition text-amber-400">Admin</button>
+        <button onclick="navigateTo('legal')" class="nav-link px-3 py-2 rounded-lg hover:text-neonpink transition text-slate-400">Legal</button>
+      </nav>
+
+      <!-- Right Widgets (Google Translate, Theme Toggle, Authentication CTA) -->
+      <div class="flex items-center space-x-3">
+        <!-- Google Translate Widget Container -->
+        <div id="google_translate_element"></div>
+
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" class="p-2 rounded-lg bg-slate-800 text-yellow-400 hover:bg-slate-700 transition" title="Toggle Light/Dark Mode">
+          <i class="fa-solid fa-sun text-md"></i>
+        </button>
+
+        <!-- Dynamic User Status Button -->
+        <div id="auth-status-container">
+          <button onclick="navigateTo('auth')" class="px-4 py-2 text-xs md:text-sm font-bold rounded-full bg-gradient-to-r from-neonpink to-violetglow hover:opacity-90 text-white transition shadow-lg">Join / Login</button>
         </div>
-    </nav>
+      </div>
+    </div>
+  </header>
 
-    <div id="page-home" class="page-view active pt-28 lg:pt-32">
-        <header class="text-center px-4 max-w-5xl mx-auto pb-16">
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">Discover K-Pop Companies, Artists <br><span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500">& Official Fan Inquiries</span></h1>
-            <p class="text-lg text-slate-400 mb-10">Browse agencies, explore artists, submit fan inquiries, and track everything from one global portal.</p>
-            <div class="flex justify-center gap-4">
-                <button onclick="switchPage('companies')" class="bg-white text-slate-900 px-8 py-3 rounded-full font-bold hover:bg-slate-200 transition">Browse Companies</button>
-                <button onclick="switchPage('dashboard')" class="glass-panel px-8 py-3 rounded-full font-bold hover:bg-white/10 transition">Track Status</button>
+  <!-- ================= MAIN CONTENT CONTAINER ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- ================= 1. HOMEPAGE SECTION ================= -->
+    <section id="page-home" class="page-section">
+      <!-- Hero Banner -->
+      <div class="relative rounded-3xl overflow-hidden mb-12 bg-gradient-to-tr from-[#120822] via-[#070814] to-[#030616] border border-slate-800/80 shadow-2xl py-16 px-6 md:px-12 text-center md:text-left">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-neonpink/10 via-transparent to-transparent pointer-events-none"></div>
+        <div class="max-w-3xl">
+          <span class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-widest text-neonpink bg-neonpink/10 border border-neonpink/30 rounded-full uppercase">Accredited Fan Hub</span>
+          <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-none mb-6">
+            Discover K-Pop <span class="bg-gradient-to-r from-neonpink via-violetglow to-electricblue bg-clip-text text-transparent">Companies, Artists</span> & Official Fan Inquiries
+          </h1>
+          <p class="text-base md:text-xl text-slate-300 mb-8 leading-relaxed">
+            Browse agencies, explore artists, submit fan inquiries, and track memberships or premium event booking requests in one central dashboard.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <button onclick="navigateTo('companies')" class="px-8 py-4 font-bold rounded-xl bg-gradient-to-r from-neonpink to-violetglow hover:scale-105 transition shadow-lg text-white">
+              <i class="fa-solid fa-building mr-2"></i> Browse Companies
+            </button>
+            <button onclick="navigateTo('artists')" class="px-8 py-4 font-bold rounded-xl bg-slate-800 hover:bg-slate-700 transition border border-slate-700">
+              <i class="fa-solid fa-microphone mr-2"></i> Search Artists
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Global Live Search Bar -->
+      <div class="glass p-6 rounded-2xl mb-12 shadow-xl">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3"><i class="fa-solid fa-magnifying-glass mr-2 text-electricblue"></i> Global Search (Agencies & Groups)</h3>
+        <div class="relative mb-6">
+          <input type="text" id="global-search-input" placeholder="Search agencies like 'HYBE' or groups like 'BTS', 'Blackpink', 'ASTRO', 'CNBLUE'..." class="w-full bg-slate-950 border border-slate-800 rounded-xl py-4 pl-12 pr-4 text-white placeholder-slate-400 focus:outline-none focus:border-neonpink transition">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500"></i>
+        </div>
+
+        <!-- Filter Category Chips -->
+        <div class="flex flex-wrap gap-2" id="category-chips-container">
+          <button onclick="filterByChip('All')" class="category-chip px-4 py-2 rounded-full text-xs font-semibold bg-neonpink text-white transition">All Categories</button>
+          <button onclick="filterByChip('Big 4')" class="category-chip px-4 py-2 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Big 4</button>
+          <button onclick="filterByChip('Mid-Tier')" class="category-chip px-4 py-2 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Mid-Tier</button>
+          <button onclick="filterByChip('Boy Group')" class="category-chip px-4 py-2 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Boy Groups</button>
+          <button onclick="filterByChip('Girl Group')" class="category-chip px-4 py-2 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Girl Groups</button>
+          <button onclick="filterByChip('Soloist')" class="category-chip px-4 py-2 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Soloists / Actors</button>
+        </div>
+      </div>
+
+      <!-- Featured Companies Grid -->
+      <div class="mb-12">
+        <div class="flex justify-between items-end mb-6">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-black">Featured Entertainment Agencies</h2>
+            <p class="text-slate-400 text-sm">Official entertainment industries leading the international wave</p>
+          </div>
+          <button onclick="navigateTo('companies')" class="text-neonpink font-bold text-sm hover:underline">View All <i class="fa-solid fa-arrow-right ml-1"></i></button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="featured-companies-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Featured Artists Grid (with interactive flipping profiles) -->
+      <div class="mb-12">
+        <div class="flex justify-between items-end mb-6">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-black">Featured Artists & Groups</h2>
+            <p class="text-slate-400 text-sm">Click profile cards to flip and discover exclusive inquiry channels</p>
+          </div>
+          <button onclick="navigateTo('artists')" class="text-electricblue font-bold text-sm hover:underline">View All <i class="fa-solid fa-arrow-right ml-1"></i></button>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="featured-artists-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- How It Works Section -->
+      <div class="glass p-8 rounded-3xl mb-12 shadow-xl border border-slate-800/80">
+        <h2 class="text-2xl font-extrabold text-center mb-8">How The Portal Facilitates Inquiries</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+          <div class="p-4">
+            <div class="w-12 h-12 rounded-full bg-neonpink/10 text-neonpink flex items-center justify-center mx-auto mb-4 text-xl font-bold border border-neonpink/20">1</div>
+            <h4 class="font-bold text-lg mb-2">Select Agency</h4>
+            <p class="text-slate-400 text-xs">Choose from major or independent South Korean labels.</p>
+          </div>
+          <div class="p-4">
+            <div class="w-12 h-12 rounded-full bg-violetglow/10 text-violetglow flex items-center justify-center mx-auto mb-4 text-xl font-bold border border-violetglow/20">2</div>
+            <h4 class="font-bold text-lg mb-2">Pick Artist / Group</h4>
+            <p class="text-slate-400 text-xs">Flip cards to access specialized fan service shortcuts.</p>
+          </div>
+          <div class="p-4">
+            <div class="w-12 h-12 rounded-full bg-electricblue/10 text-electricblue flex items-center justify-center mx-auto mb-4 text-xl font-bold border border-electricblue/20">3</div>
+            <h4 class="font-bold text-lg mb-2">Submit Securely</h4>
+            <p class="text-slate-400 text-xs">Send inquiries with Formspree and track local drafts.</p>
+          </div>
+          <div class="p-4">
+            <div class="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center mx-auto mb-4 text-xl font-bold border border-emerald-500/20">4</div>
+            <h4 class="font-bold text-lg mb-2">Receive Feedback</h4>
+            <p class="text-slate-400 text-xs">Verify your Gmail inbox for direct agency communication.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 2. COMPANIES DIRECTORY SECTION ================= -->
+    <section id="page-companies" class="page-section hidden">
+      <div class="mb-8">
+        <h1 class="text-3xl md:text-5xl font-black">Accredited Agencies & Companies Directory</h1>
+        <p class="text-slate-400 mt-2">Comprehensive list of Korean entertainment industries and the groups managed under them.</p>
+      </div>
+
+      <!-- Filtering / Sorting -->
+      <div class="glass p-6 rounded-2xl mb-8 flex flex-col md:flex-row gap-4 items-center justify-between shadow-lg">
+        <div class="w-full md:w-1/3">
+          <label class="block text-xs font-bold text-slate-400 mb-1 uppercase">Search Agency</label>
+          <input type="text" id="company-filter-search" placeholder="Type name..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:border-neonpink outline-none text-sm">
+        </div>
+        <div class="w-full md:w-1/4">
+          <label class="block text-xs font-bold text-slate-400 mb-1 uppercase">Tier Category</label>
+          <select id="company-filter-tier" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:border-neonpink outline-none text-sm">
+            <option value="All">All Tiers</option>
+            <option value="Big 4">Big 4 Agencies</option>
+            <option value="Major / Mid-Tier">Major / Mid-Tier</option>
+            <option value="Independent / Specialized">Independent / Specialized</option>
+            <option value="Actor Management">Actor Management</option>
+          </select>
+        </div>
+        <div class="w-full md:w-1/4">
+          <label class="block text-xs font-bold text-slate-400 mb-1 uppercase">Sort Order</label>
+          <select id="company-filter-sort" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:border-neonpink outline-none text-sm">
+            <option value="name-asc">Name (A-Z)</option>
+            <option value="name-desc">Name (Z-A)</option>
+            <option value="artists-desc">Largest Roster First</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Complete Directory Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="all-companies-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ================= 3. INDIVIDUAL COMPANY DETAIL SECTION ================= -->
+    <section id="page-company-detail" class="page-section hidden">
+      <button onclick="navigateTo('companies')" class="mb-6 text-slate-400 hover:text-white flex items-center space-x-2 font-semibold">
+        <i class="fa-solid fa-arrow-left"></i> <span>Back to Directory</span>
+      </button>
+
+      <!-- Company Hero Banner -->
+      <div class="glass rounded-3xl p-6 md:p-10 mb-8 border border-slate-800 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-neonpink/10 rounded-full filter blur-3xl pointer-events-none"></div>
+        <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
+          <div id="company-detail-logo-block" class="w-28 h-28 rounded-2xl flex items-center justify-center font-black text-4xl text-white shadow-xl">
+            <!-- Initial abbreviation populated dynamically -->
+          </div>
+          <div class="flex-1 text-center md:text-left">
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-2">
+              <span id="company-detail-tier" class="px-3 py-1 rounded-full text-[10px] font-black tracking-wider uppercase text-white bg-neonpink">
+                BIG 4
+              </span>
+              <span id="company-detail-parent" class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full">
+                Parent Industry
+              </span>
             </div>
-        </header>
+            <h1 id="company-detail-name" class="text-4xl md:text-5xl font-black mb-3">Company Name</h1>
+            <p id="company-detail-desc" class="text-slate-300 max-w-2xl leading-relaxed text-sm">Description content.</p>
+          </div>
+        </div>
+
+        <!-- Agency Quick Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-8 border-t border-slate-800 text-center">
+          <div>
+            <div class="text-2xl md:text-3xl font-black text-neonpink" id="stat-artists-count">0</div>
+            <div class="text-slate-400 text-xs uppercase font-semibold">Roster Total</div>
+          </div>
+          <div>
+            <div class="text-2xl md:text-3xl font-black text-violetglow" id="stat-groups-count">0</div>
+            <div class="text-slate-400 text-xs uppercase font-semibold">Groups</div>
+          </div>
+          <div>
+            <div class="text-2xl md:text-3xl font-black text-electricblue" id="stat-soloists-count">0</div>
+            <div class="text-slate-400 text-xs uppercase font-semibold">Soloists</div>
+          </div>
+          <div>
+            <div class="text-2xl md:text-3xl font-black text-amber-400" id="stat-actors-count">0</div>
+            <div class="text-slate-400 text-xs uppercase font-semibold">Actors / Models</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Sub-groups Tabs inside Company Profile -->
+      <div class="mb-6 flex flex-wrap gap-2 border-b border-slate-800 pb-4">
+        <button onclick="filterCompanyRoster('All')" class="roster-tab px-5 py-2.5 rounded-lg text-sm font-bold bg-neonpink text-white">All Artists & Sublabels</button>
+        <button onclick="filterCompanyRoster('Boy Group')" class="roster-tab px-5 py-2.5 rounded-lg text-sm font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Boy Groups</button>
+        <button onclick="filterCompanyRoster('Girl Group')" class="roster-tab px-5 py-2.5 rounded-lg text-sm font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Girl Groups</button>
+        <button onclick="filterCompanyRoster('Soloist')" class="roster-tab px-5 py-2.5 rounded-lg text-sm font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Soloists</button>
+        <button onclick="filterCompanyRoster('Actor')" class="roster-tab px-5 py-2.5 rounded-lg text-sm font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Actors</button>
+      </div>
+
+      <!-- Interactive Group Profile Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="company-roster-grid">
+        <!-- Rendered by JS with Flip Card actions -->
+      </div>
+    </section>
+
+    <!-- ===
+4.<div onclick="prefillInquiryForm('Fan Club Tier Upgrade')" class="glass hover:bg-slate-800/50 p-4 rounded-xl border border-slate-800 cursor-pointer hover:border-violetglow transition duration-300">
+                <div class="w-10 h-10 rounded-lg bg-violetglow/10 text-violetglow flex items-center justify-center mb-3"><i class="fa-solid fa-crown"></i></div>
+                <h4 class="font-extrabold text-sm mb-1 text-white">Fan Club Tier Upgrade</h4>
+                <p class="text-slate-400 text-[11px]">Request tier upgrades: VIP, Premium, or Gold benefits.</p>
+              </div>
+
+              <div onclick="prefillInquiryForm('Event Ticketing Support')" class="glass hover:bg-slate-800/50 p-4 rounded-xl border border-slate-800 cursor-pointer hover:border-electricblue transition duration-300">
+                <div class="w-10 h-10 rounded-lg bg-electricblue/10 text-electricblue flex items-center justify-center mb-3"><i class="fa-solid fa-ticket"></i></div>
+                <h4 class="font-extrabold text-sm mb-1 text-white">Event Ticketing Support</h4>
+                <p class="text-slate-400 text-[11px]">Secure official ticket registration, venue queues, and seating aid.</p>
+              </div>
+ <div onclick="prefillInquiryForm('Report Fake Profiles')" class="glass hover:bg-slate-800/50 p-4 rounded-xl border border-slate-800 cursor-pointer hover:border-red-500 transition duration-300">
+                <div class="w-10 h-10 rounded-lg bg-red-500/10 text-red-400 flex items-center justify-center mb-3"><i class="fa-solid fa-user-slash"></i></div>
+                <h4 class="font-extrabold text-sm mb-1 text-white">Report Imposters</h4>
+                <p class="text-slate-400 text-[11px]">Report fake profiles, online trolls, or media platform violations.</p>
+              </div>
+
+              <div onclick="prefillInquiryForm('Meet & Greet Request')" class="glass hover:bg-slate-800/50 p-4 rounded-xl border border-slate-800 cursor-pointer hover:border-amber-400 transition duration-300">
+                <div class="w-10 h-10 rounded-lg bg-amber-400/10 text-amber-400 flex items-center justify-center mb-3"><i class="fa-solid fa-users-line"></i></div>
+                <h4 class="font-extrabold text-sm mb-1 text-white">Meet & Greet / 1-on-1</h4>
+                <p class="text-slate-400 text-[11px]">Register for physical fan-signs or private video calls.</p>
+              </div>
+
+              <div onclick="prefillInquiryForm('Dinner Date Request')" class="glass hover:bg-slate-800/50 p-4 rounded-xl border border-slate-800 cursor-pointer hover:border-emerald-400 transition duration-300">
+                <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-3"><i class="fa-solid fa-utensils"></i></div>
+                <h4 class="font-extrabold text-sm mb-1 text-white">Dinner Date (Post-Event)</h4>
+                <p class="text-slate-400 text-[11px]">Request official registry for post-concert media catering tables.</p>
+              </div>
+
+              <div onclick="prefillInquiryForm('Vacation & Contract Inquiry')" class="glass hover:bg-slate-800/50 p-4 rounded-xl border border-slate-800 cursor-pointer hover:border-cyan-400 transition duration-300">
+                <div class="w-10 h-10 rounded-lg bg-cyan-400/10 text-cyan-400 flex items-center justify-center mb-3"><i class="fa-solid fa-handshake-slash"></i></div>
+                <h4 class="font-extrabold text-sm mb-1 text-white">Vacation / Termination</h4>
+                <p class="text-slate-400 text-[11px]">Submit tracking on artist contracts, breaks, or agency agreements.</p>
+              </div>
+
+              <div onclick="prefillInquiryForm('Charity Support')" class="glass hover:bg-slate-800/50 p-4 rounded-xl border border-slate-800 cursor-pointer hover:border-indigo-400 transition duration-300">
+                <div class="w-10 h-10 rounded-lg bg-indigo-400/10 text-indigo-400 flex items-center justify-center mb-3"><i class="fa-solid fa-heart"></i></div>
+                <h4 class="font-extrabold text-sm mb-1 text-white">Charity Support & Orphan</h4>
+                <p class="text-slate-400 text-[11px]">Submit corporate and fan donations under the group's name.</p>
+              </div>
+
+              <div onclick="prefillInquiryForm('VIP Membership Card Benefits Booking')" class="glass hover:bg-slate-800/50 p-4 rounded-xl border border-slate-800 cursor-pointer hover:border-amber-500 transition duration-300">
+                <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center mb-3"><i class="fa-solid fa-gem"></i></div>
+                <h4 class="font-extrabold text-sm mb-1 text-white">VIP Membership ($3,000)</h4>
+                <p class="text-slate-400 text-[11px]">Full access, front rows, backstage security passes, and photobooks.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Setup visual form block -->
+          <div class="glass p-6 rounded-3xl border border-slate-800">
+            <h3 class="text-xl font-bold mb-4 text-slate-100"><i class="fa-solid fa-file-pen text-neonpink mr-2"></i> Quick Setup Fan Request Draft</h3>
+            
+            <div class="mb-5">
+              <label class="block text-xs font-black text-neonpink uppercase tracking-widest mb-2">&gt;&gt; Name of Your Favorite K-pop Idol &lt;&lt;&lt;</label>
+              <input type="text" id="quick-fav-idol" placeholder="Type the specific idol member's name (e.g. Astro Moonbin, BTS Jin, Blackpink Rosé, CNBLUE Yonghwa)..." class="w-full bg-slate-950 border-b-2 border-slate-700 hover:border-neonpink focus:border-neonpink text-white rounded-t-lg p-3 text-lg transition outline-none font-bold">
+            </div>
+
+            <div class="mb-6">
+              <label class="block text-xs font-black text-electricblue uppercase tracking-widest mb-2">» Provide Details Regarding Your Request «</label>
+              <textarea id="quick-details" rows="5" placeholder="Write out full fan explanations... This spacious panel is built for comfortably explaining your membership package, ticketing support, or reporting violations." class="w-full bg-slate-950 border border-slate-800 hover:border-electricblue focus:border-electricblue rounded-xl p-4 text-slate-100 transition outline-none font-medium text-sm"></textarea>
+            </div>
+<div class="flex justify-end">
+              <button onclick="transferToFullInquiry()" class="px-6 py-3 font-bold rounded-xl bg-gradient-to-r from-neonpink to-violetglow hover:opacity-90 text-white transition flex items-center gap-2 shadow-lg">
+                <span>Proceed to Submit Inquiry Form</span> <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 5. INQUIRY FORM SECTION (Formspree Integrated) ================= -->
+    <section id="page-inquiries" class="page-section hidden">
+      <div class="mb-8 text-center max-w-2xl mx-auto">
+        <h1 class="text-3xl md:text-5xl font-black">Submit Official Inquiry</h1>
+        <p class="text-slate-400 mt-2">Send your inquiries directly to agency executives. Powered by Formspree integrations.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Selection Summary Card -->
+        <div class="lg:col-span-1 space-y-6">
+          <div class="glass p-6 rounded-2xl">
+            <h3 class="text-xs font-black uppercase text-neonpink tracking-widest mb-4">Inquiry Destination</h3>
+            
+            <div id="inquiry-selection-alert" class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-center text-sm text-slate-400">
+              <i class="fa-solid fa-circle-exclamation text-amber-400 text-xl mb-2 block"></i>
+              No specific artist has been chosen. Please use the dropdown selectors inside the form directly.
+            </div>
+
+            <div id="inquiry-selected-card" class="hidden">
+              <div class="flex items-center space-x-4 mb-4">
+                <div id="inquiry-artist-avatar" class="w-16 h-16 rounded-xl bg-slate-800 font-extrabold text-2xl flex items-center justify-center text-white">
+                  K
+                </div>
+                <div>
+                  <h4 id="inquiry-artist-name" class="font-black text-lg text-white">Group Name</h4>
+                  <p id="inquiry-company-name" class="text-xs text-slate-400">Company Agency</p>
+                </div>
+              </div>
+              <div class="bg-slate-950 p-3 rounded-xl text-xs space-y-2 text-slate-300">
+                <div class="flex justify-between"><span>Registry ID:</span> <span class="text-slate-500 font-mono" id="inquiry-registry-id">#KP-88</span></div>
+                <div class="flex justify-between"><span>Priority Routing:</span> <span class="bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded text-[10px] font-black border border-emerald-500/20">Verified Channel</span></div>
+              </div>
+            </div>
+          </div>
+            <div class="glass p-6 rounded-2xl border-l-4 border-electricblue">
+            <h4 class="font-bold text-sm mb-2 text-electricblue"><i class="fa-solid fa-circle-check"></i> Form Routing Notes</h4>
+            <ul class="text-xs text-slate-400 space-y-2.5 list-disc pl-4">
+              <li>Enter your registered fan email correctly to receive agency updates.</li>
+              <li>Toggle categories in the dropdown to show customized inputs for memberships, merchandise, or tickets.</li>
+              <li>You may save a local draft anytime. It will remain securely stored in your dashboard panel.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Submission Form Area -->
+        <div class="lg:col-span-2">
+          <form id="kpop-inquiry-form" action="https://formspree.io/f/xykrybvv" method="POST" class="glass p-6 md:p-8 rounded-3xl space-y-6">
+            
+            <input type="hidden" name="_subject" value="K-Pop Fan Portal Official Inquiry">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Full Name <span class="text-neonpink">*</span></label>
+                <input type="text" name="Full Name" id="form-fullname" required placeholder="E.g. Jane Doe" class="w-full bg-slate-950 border border-slate-850 focus:border-neonpink rounded-lg p-3 text-white outline-none transition text-sm">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Email Address <span class="text-neonpink">*</span></label>
+                <input type="email" name="Email" id="form-email" required placeholder="E.g. jane.doe@example.com" class="w-full bg-slate-950 border border-slate-850 focus:border-neonpink rounded-lg p-3 text-white outline-none transition text-sm">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Phone Number</label>
+                <input type="tel" name="Phone Number" id="form-phone" placeholder="+1 123 456 7890" class="w-full bg-slate-950 border border-slate-850 focus:border-neonpink rounded-lg p-3 text-white outline-none transition text-sm">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Country</label>
+                <input type="text" name="Country" id="form-country" placeholder="United States, Korea..." class="w-full bg-slate-950 border border-slate-850 focus:border-neonpink rounded-lg p-3 text-white outline-none transition text-sm">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Preferred Language</label>
+                <select name="Preferred Language" id="form-lang" class="w-full bg-slate-950 border border-slate-850 focus:border-neonpink rounded-lg p-3 text-white outline-none transition text-sm">
+                  <option value="English">English</option>
+                  <option value="Korean">Korean (한국어)</option>
+                  <option value="Japanese">Japanese (日本語)</option>
+                  <option value="Spanish">Spanish (Español)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Target Agency Industry</label>
+                <select name="Target Company" id="form-company-select" class="w-full bg-slate-950 border border-slate-850 focus:border-neonpink rounded-lg p-3 text-white outline-none transition text-sm" onchange="syncArtistDropdownFromCompany()">
+                  <!-- Dynamically Rendered -->
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Target Idol Group</label>
+                <select name="Target Artist" id="form-artist-select" class="w-full bg-slate-950 border border-slate-850 focus:border-neonpink rounded-lg p-3 text-white outline-none transition text-sm" onchange="syncSelectionDetails()">
+                  <!-- Dynamically Rendered -->
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Inquiry Type <span class="text-neonpink">*</span></label>
+                <select name="Inquiry Type" id="form-inquiry-type" required class="w-full bg-slate-950 border border-slate-850 focus:border-neonpink rounded-lg p-3 text-white outline-none transition text-sm" onchange="toggleFormConditionalFields()">
+                  <option value="General Fan Advocacy">General Fan Advocacy Support</option>
+                  <option value="Official Membership Card Booking">Official Membership Card Booking</option>
+                  <option value="Fan Club Tier Upgrade">Fan Club Tier Upgrade (VIP/Premium)</option>
+                  <option value="Event Ticketing Support">Event Ticketing Support</option>
+                  <option value="Report Fake Profiles">Report Fake Profiles & Imposters</option>
+                  <option value="Meet & Greet Request">Meet & Greet / 1-on-1 Meeting</option>
+                  <option value="Dinner Date Request">Dinner Date Request (Post-Event)</option>
+                  <option value="Vacation & Contract Inquiry">Vacation & Contract Termination</option>
+                  <option value="Charity Support">Charity Support & Orphanages</option>
+                  <option value="Favorite Idol Support">Favorite Idol Support & Photobooks</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Favorite K-pop Idol Name</label>
+ <input type="text" name="Favorite Idol" id="form-fav-idol" placeholder="Idol member name" class="w-full bg-slate-950 border border-slate-850 rounded-lg p-3 text-white outline-none transition text-sm">
+              </div>
+            </div>
+
+            <!-- DYNAMIC CONDITIONAL SECTION (Rendered based on choices) -->
+            <div id="cond-membership" class="hidden p-4 rounded-xl bg-slate-950/80 border border-neonpink/20 space-y-4 text-xs">
+              <h4 class="text-xs font-black uppercase text-neonpink tracking-wider"><i class="fa-solid fa-id-card"></i> Membership Details</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-bold text-slate-400 mb-1">Select Tier Option</label>
+                  <select name="Membership Tier" class="w-full bg-slate-900 border border-slate-850 rounded p-2 text-white outline-none">
+                    <option value="Standard Fan Club">Standard Fan Club</option>
+                    <option value="Premium VIP Level ($3,005)">Premium VIP Level ($3,000)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-bold text-slate-400 mb-1">Delivery Info</label>
+                  <input type="text" name="Delivery Address" placeholder="Physical Mailing Address" class="w-full bg-slate-900 border border-slate-850 rounded p-2 text-white outline-none">
+                </div>
+              </div>
+            </div>
+
+            <div id="cond-concert" class="hidden p-4 rounded-xl bg-slate-950/80 border border-violetglow/20 space-y-4 text-xs">
+              <h4 class="text-xs font-black uppercase text-violetglow tracking-wider"><i class="fa-solid fa-ticket"></i> Concert Support Details</h4>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="block font-bold text-slate-400 mb-1">Event Location</label>
+                  <input type="text" name="Concert Location" placeholder="Seoul, Los Angeles..." class="w-full bg-slate-900 border border-slate-850 rounded p-2 text-white outline-none">
+                </div>
+                <div>
+                  <label class="block font-bold text-slate-400 mb-1">Ticket Quantity</label>
+                  <input type="number" name="Concert Qty" min="1" max="10" placeholder="1" class="w-full bg-slate-900 border border-slate-850 rounded p-2 text-white outline-none">
+                </div>
+                <div>
+                  <label class="block font-bold text-slate-400 mb-1">Seating Section Preference</label>
+                  <input type="text" name="Seating Pref" placeholder="VIP Pit / Floor" class="w-full bg-slate-900 border border-slate-850 rounded p-2 text-white outline-none">
+                </div>
+              </div>
+            </div>
+              <!-- Subject Area -->
+            <div>
+              <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Subject</label>
+              <input type="text" name="Subject" id="form-subject" placeholder="Summary of your request" class="w-full bg-slate-950 border border-slate-850 focus:border-neonpink rounded-lg p-3 text-white outline-none transition text-sm">
+            </div>
+
+            <!-- Spacious visual textarea -->
+            <div>
+              <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Provide Details Regarding Your Request <span class="text-neonpink">*</span></label>
+              <textarea name="Inquiry Message" id="form-message" required rows="6" placeholder="Write out full fan details here... This spacious editor is comfortable for long explanations regarding memberships, events, advocacy reports, or specific group projects." class="w-full bg-slate-950 border border-slate-850 focus:border-neonpink rounded-xl p-4 text-white outline-none transition text-sm"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Attachment Reference Link / Proof of Transaction</label>
+              <input type="url" name="Attachment URL" id="form-attachment" placeholder="Upload your screenshots to drive/imgur and paste links here" class="w-full bg-slate-950 border border-slate-850 focus:border-neonpink rounded-lg p-3 text-white outline-none transition text-sm">
+            </div>
+
+            <div class="flex items-start space-x-3 bg-slate-950 p-4 rounded-xl border border-slate-800">
+              <input type="checkbox" required id="form-consent" class="mt-1 accent-neonpink cursor-pointer">
+              <label for="form-consent" class="text-xs text-slate-400 leading-relaxed cursor-pointer select-none">
+                I verify that the information is true and correct. I authorize the agency managers to contact me directly using my provided email address.
+              </label>
+            </div>
+<!-- Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-between items-center pt-4">
+              <button type="button" onclick="saveInquiryDraft()" class="w-full sm:w-auto px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs uppercase tracking-wider transition">
+                <i class="fa-solid fa-floppy-disk mr-1.5"></i> Save Draft Locally
+              </button>
+              <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                <button type="button" onclick="openDirectPaymentFromForm()" class="px-5 py-3 rounded-xl bg-amber-500/25 text-amber-300 hover:bg-amber-500/35 border border-amber-500/40 font-bold text-xs uppercase tracking-wider transition">
+                  <i class="fa-solid fa-credit-card mr-1.5"></i> Open Checkout UI
+                </button>
+                <button type="submit" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-neonpink via-violetglow to-electricblue text-white font-black text-sm uppercase tracking-wider shadow-lg hover:scale-[1.02] transition">
+                  Submit to Agency Portal <i class="fa-solid fa-paper-plane ml-1.5"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 6. USER DASHBOARD SECTION ================= -->
+    <section id="page-dashboard" class="page-section hidden">
+      <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 class="text-3xl md:text-5xl font-black">Fan Workspace Dashboard</h1>
+          <p class="text-slate-400 mt-1">Check submitted applications, premium VIP receipts, and update local notifications.</p>
+        </div>
+        <div class="flex items-center space-x-3 bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-xs text-slate-300">
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+          <span>LocalStorage Persistent Mode</span>
+        </div>
+      </div>
+
+      <!-- Overview Stats Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="glass p-5 rounded-2xl border-l-4 border-neonpink">
+          <div class="text-slate-400 text-xs font-bold uppercase">My Submissions</div>
+          <div class="text-3xl font-black mt-2 text-white" id="dash-stat-total">0</div>
+          <div class="text-[10px] text-slate-500 mt-1">Formspree monitored items</div>
+        </div>
+        <div class="glass p-5 rounded-2xl border-l-4 border-violetglow">
+          <div class="text-slate-400 text-xs font-bold uppercase">Awaiting Manager Feedback</div>
+          <div class="text-3xl font-black mt-2 text-white" id="dash-stat-pending">0</div>
+          <div class="text-[10px] text-slate-500 mt-1">Direct feedback response</div>
+        </div>
+        <div class="glass p-5 rounded-2xl border-l-4 border-electricblue">
+          <div class="text-slate-400 text-xs font-bold uppercase">VIP Membership Status</div>
+          <div class="text-lg font-black mt-3 text-electricblue uppercase" id="dash-stat-tier">Standard Fan Club</div>
+          <div class="text-[10px] text-slate-500 mt-1">Local authorization badge</div>
+        </div>
+        <div class="glass p-5 rounded-2xl border-l-4 border-amber-400">
+          <div class="text-slate-400 text-xs font-bold uppercase">Verified Receipts</div>
+          <div class="text-3xl font-black mt-2 text-white" id="dash-stat-payments">0</div>
+          <div class="text-[10px] text-slate-500 mt-1">Stripe transaction log</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Inquiries Log Table -->
+        <div class="lg:col-span-2 space-y-8">
+          <div class="glass p-6 rounded-3xl">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-lg font-black text-white"><i class="fa-solid fa-list-check text-neonpink mr-2"></i> My Official Inquiry Submissions</h3>
+              <button onclick="clearAllLogs('inquiries')" class="text-xs text-red-400 font-bold hover:underline">Clear Locally</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs whitespace-nowrap">
+                <thead>
+                  <tr class="border-b border-slate-800 text-slate-400 uppercase font-black">
+                    <th class="py-3 px-2">Group Focus</th>
+                    <th class="py-3 px-2">Inquiry Type</th>
+                    <th class="py-3 px-2">Full Name</th>
+                    <th class="py-3 px-2">Date</th>
+                    <th class="py-3 px-2 text-right">Review Status</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboard-inquiries-table-body">
+                  <!-- JS Render -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Payments History Table -->
+          <div class="glass p-6 rounded-3xl">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-lg font-black text-white"><i class="fa-solid fa-wallet text-electricblue mr-2"></i> Payment Receipt Log</h3>
+              <button onclick="clearAllLogs('payments')" class="text-xs text-red-400 font-bold hover:underline">Clear Log</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs whitespace-nowrap">
+                <thead>
+                  <tr class="border-b border-slate-800 text-slate-400 uppercase font-black">
+                    <th class="py-3 px-2">Description</th>
+                    <th class="py-3 px-2">Method</th>
+                    <th class="py-3 px-2">Amount Paid</th>
+                    <th class="py-3 px-2">Ref Code</th>
+                    <th class="py-3 px-2 text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboard-payments-table-body">
+                  <!-- JS Render -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Settings Form -->
+        <div class="lg:col-span-1 space-y-6">
+          <div class="glass p-6 rounded-3xl">
+            <h3 class="text-lg font-black mb-4"><i class="fa-solid fa-user-gear text-violetglow mr-2"></i> Workspace Settings</h3>
+            <form id="dashboard-settings-form" onsubmit="saveUserSettings(event)" class="space-y-4">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Fan Name</label>
+                <input type="text" id="settings-name" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none focus:border-neonpink">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Email</label>
+                <input type="email" id="settings-email" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none focus:border-neonpink">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Phone</label>
+                <input type="tel" id="settings-phone" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none focus:border-neonpink">
+              </div>
+              <button type="submit" class="w-full py-2.5 rounded-lg bg-violetglow text-white font-bold text-xs uppercase tracking-wider hover:opacity-90 transition">
+                Update Settings Data
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+      <!-- ================= 7. LOGIN / REGISTER SECTION ================= -->
+    <section id="page-auth" class="page-section hidden max-w-md mx-auto">
+      <div class="glass p-8 rounded-3xl shadow-2xl border border-slate-800 text-center">
+        <div class="flex justify-center border-b border-slate-800 mb-6">
+          <button onclick="toggleAuthTab('login')" id="tab-auth-login" class="px-6 py-2 border-b-2 border-neonpink text-white font-bold text-sm">Login</button>
+          <button onclick="toggleAuthTab('register')" id="tab-auth-register" class="px-6 py-2 border-b-2 border-transparent text-slate-400 font-bold text-sm">Register</button>
+        </div>
+
+        <form id="auth-login-form" onsubmit="handleAuthSubmit(event, 'login')" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-400 text-left mb-1 uppercase">Email Address</label>
+            <input type="email" id="login-email" required placeholder="your.email@example.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white outline-none text-sm focus:border-neonpink">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 text-left mb-1 uppercase">Password</label>
+            <input type="password" id="login-pass" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white outline-none text-sm focus:border-neonpink">
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-neonpink to-violetglow text-white font-black uppercase text-xs tracking-wider transition hover:opacity-95 shadow-lg">
+            Verify & Enter Portal
+          </button>
+        </form>
+
+        <form id="auth-register-form" onsubmit="handleAuthSubmit(event, 'register')" class="space-y-4 hidden">
+          <div>
+            <label class="block text-xs font-bold text-slate-400 text-left mb-1 uppercase">Your Name</label>
+            <input type="text" id="reg-name" required placeholder="E.g. Jane Doe" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white outline-none text-sm focus:border-neonpink">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 text-left mb-1 uppercase">Email Address</label>
+            <input type="email" id="reg-email" required placeholder="jane.doe@example.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white outline-none text-sm focus:border-neonpink">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 text-left mb-1 uppercase">Create Password</label>
+            <input type="password" id="reg-pass" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white outline-none text-sm focus:border-neonpink">
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-neonpink to-violetglow text-white font-black uppercase text-xs tracking-wider transition hover:opacity-95 shadow-lg">
+            Create Profile & Login
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ================= 8. PAYMENT / CHECKOUT SECTION ================= -->
+    <section id="page-checkout" class="page-section hidden max-w-3xl mx-auto">
+      <div class="mb-8 text-center">
+        <h1 class="text-3xl md:text-5xl font-black">Secure Upgrade Gateway</h1>
+        <p class="text-slate-400 mt-2">Process certified support verification costs and VIP fan upgrades securely.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+        <!-- Billing Summary -->
+        <div class="md:col-span-2 space-y-6">
+          <div class="glass p-6 rounded-2xl">
+            <h3 class="text-xs font-black uppercase text-neonpink tracking-widest mb-4">Request Bill Summary</h3>
+            <div class="space-y-3 text-xs">
+              <div class="flex justify-between border-b border-slate-800 pb-2"><span class="text-slate-400">Target Group:</span> <strong id="pay-artist" class="text-white">General Focus</strong></div>
+              <div class="flex justify-between border-b border-slate-800 pb-2"><span class="text-slate-400">Upgrade Context:</span> <strong id="pay-type" class="text-slate-200">VIP Ticket Verification Support</strong></div>
+              <div class="flex justify-between items-center pt-2"><span class="text-slate-400 font-extrabold text-white">Amount Total:</span> <strong class="text-lg font-black text-emerald-400" id="pay-total">$3,000.00</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checkout Form -->
+        <div class="md:col-span-3">
+          <form id="checkout-payment-form" onsubmit="processLocalPayment(event)" class="glass p-6 rounded-3xl space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase">Choose Payment Provider</label>
+              <select id="checkout-method" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-white focus:border-neonpink outline-none" onchange="syncPaymentGuideText()">
+                <option value="Stripe Card Payment">Stripe / Credit Card Payment</option>
+                <option value="PayPal">PayPal Secure Checkout</option>
+                <option value="Cash App">Cash App ($CashTag)</option>
+                <option value="Zelle">Zelle Instant Transfer</option>
+                <option value="Manual Alternative">Manual / Bank Wire Transfer</option>
+              </select>
+            </div>
+id="payment-guide-box" class="p-4 rounded-xl bg-slate-950 border border-amber-400/20 text-[11px] text-amber-300">
+              Mock Gateway Guide. Enter any 16-digit details to simulate checkout transaction values.
+            </div>
+
+            <!-- Card processing inputs -->
+            <div id="checkout-card-fields" class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-400 mb-1 uppercase">Card Number</label>
+                <input type="text" placeholder="4000 1234 5678 9010" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white focus:border-neonpink outline-none">
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-400 mb-1 uppercase">Expiry Date</label>
+                  <input type="text" placeholder="MM/YY" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white focus:border-neonpink outline-none">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-400 mb-1 uppercase">CVV / Security Code</label>
+                  <input type="text" placeholder="123" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white focus:border-neonpink outline-none">
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-400 mb-1 uppercase">Billing Email Reference</label>
+              <input type="email" id="checkout-email" required placeholder="your.email@example.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-white focus:border-neonpink outline-none">
+            </div>
+
+            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:scale-[1.02] transition text-white font-black text-xs uppercase tracking-wider shadow-lg">
+              Process Secure Payment Record
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 9. ADMIN PANEL SECTION ================= -->
+    <section id="page-admin" class="page-section hidden">
+      <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 class="text-3xl md:text-5xl font-black">Authorized Admin Console</h1>
+          <p class="text-slate-400 mt-1">Simulate management dashboard parameters, monitor inquiries, or append custom agencies directly.</p>
+        </div>
+        <button onclick="resetWholeApp()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition"><i class="fa-solid fa-arrows-rotate mr-1"></i> Reset Factory Settings</button>
+      </div>
+
+      <!-- Quick Stats Metrics -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="glass p-5 rounded-2xl border-l-4 border-amber-400">
+          <div class="text-slate-400 text-xs font-bold uppercase">Agencies Configured</div>
+          <div class="text-3xl font-black mt-2 text-white" id="admin-stat-companies">0</div>
+        </div>
+        <div class="glass p-5 rounded-2xl border-l-4 border-emerald-400">
+          <div class="text-slate-400 text-xs font-bold uppercase">Active Group Rosters</div>
+          <div class="text-3xl font-black mt-2 text-white" id="admin-stat-artists">0</div>
+        </div>
+        <div class="glass p-5 rounded-2xl border-l-4 border-neonpink">
+          <div class="text-slate-400 text-xs font-bold uppercase">Inquiries Tracked</div>
+          <div class="text-3xl font-black mt-2 text-white" id="admin-stat-inquiries">0</div>
+        </div>
+        <div class="glass p-5 rounded-2xl border-l-4 border-electricblue">
+          <div class="text-slate-400 text-xs font-bold uppercase">Simulated checkout capital</div>
+          <div class="text-3xl font-black mt-2 text-white" id="admin-stat-revenue">$0</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Large submissions list -->
+        <div class="lg:col-span-2 glass p-6 rounded-3xl">
+          <h3 class="text-lg font-black mb-4 text-white"><i class="fa-solid fa-gears text-amber-400 mr-2"></i> All Submissions (Admin View)</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs whitespace-nowrap">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400 uppercase font-black">
+                  <th class="py-3 px-2">Submitter</th>
+                  <th class="py-3 px-2">Group Focus</th>
+                  <th class="py-3 px-2">Inquiry Category</th>
+                  <th class="py-3 px-2">Status</th>
+                  <th class="py-3 px-2 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-inquiries-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+                      </div>
+          <!-- Add custom agency to live UI -->
+        <div class="lg:col-span-1 space-y-6">
+          <div class="glass p-6 rounded-3xl border border-slate-800">
+            <h3 class="text-lg font-black mb-4 text-white"><i class="fa-solid fa-plus text-emerald-400 mr-2"></i> Insert Custom Agency</h3>
+            <p class="text-slate-400 text-[11px] mb-4">No password needed. Instantly append custom sub-labels with hex codes into the live DOM registry.</p>
+            
+            <form id="admin-add-company-form" onsubmit="adminAddNewCompany(event)" class="space-y-3 text-xs">
+              <div>
+                <label class="block font-bold text-slate-400 mb-1">Agency Brand Name</label>
+                <input type="text" id="admin-add-cname" required placeholder="E.g. JELLY entertainment" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-white focus:border-neonpink">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-400 mb-1">Tier Category</label>
+                <select id="admin-add-ctier" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-white focus:border-neonpink">
+                  <option value="Big 4">Big 4</option>
+                  <option value="Major / Mid-Tier">Major / Mid-Tier</option>
+                  <option value="Independent / Specialized">Independent / Specialized</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-bold text-slate-400 mb-1">Theme Color Hex</label>
+                <input type="color" id="admin-add-ccolor" value="#ff2e93" class="w-full h-8 bg-transparent rounded cursor-pointer">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-400 mb-1">Narrative Description</label>
+                <textarea id="admin-add-cdesc" rows="3" required placeholder="Accredited label managing modern dance creators..." class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-white focus:border-neonpink"></textarea>
+              </div>
+              <button type="submit" class="w-full py-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold uppercase rounded transition">
+                Publish Live to Portal
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 10. LEGAL SECTION ================= -->
+    <section id="page-legal" class="page-section hidden space-y-8">
+      <div class="mb-4">
+        <h1 class="text-3xl md:text-5xl font-black">Legal Disclaimers</h1>
+        <p class="text-slate-400 mt-2">Standard fan club privacy, terms, and facilitation guidelines.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="glass p-6 rounded-2xl border-t-4 border-amber-400 text-xs">
+          <h3 class="text-md font-black text-amber-300 mb-3"><i class="fa-solid fa-scale-balanced mr-2"></i> Legal Disclaimer</h3>
+          <p class="text-slate-300 leading-relaxed mb-4">
+            <strong>Portal Status Notice:</strong> This platform functions as an integrated routing hub built to streamline, organize, and facilitate fans' direct applications and submissions. All trade names, company logos, and artist trademarks are intellectual property of their corresponding registered South Korean corporations (HYBE, SM, JYP, YG, FNC, Starship, Fantagio, etc.).
+          </p>
+          <div class="bg-amber-400/10 border border-amber-400/20 rounded-xl p-4 text-[10px] text-amber-200">
+            <strong>NOTICE TO THE VISITOR:</strong> Verified authorization claims must be inserted by the site owner if applicable. This hub serves as a routing facilitation helper. Inquiries are processed via external APIs.
+          </div>
+        </div>
+
+        <div class="glass p-6 rounded-2xl border-t-4 border-neonpink text-xs">
+          <h3 class="text-md font-black text-neonpink mb-3"><i class="fa-solid fa-user-shield mr-2"></i> Privacy Policy</h3>
+          <p class="text-slate-300 leading-relaxed">
+            Your data confidentiality is our primary concern. All inquiry configurations, physical membership cards, or billing references you draft are stored exclusively within the local browser storage on your current device. Submitted inquiries are packaged and transmitted directly using Formspree channels. No credit card records or private ID documents are permanently logged on our cloud databases.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= POPUP MODAL SUCCESS MESSAGE (MANDATORY REQUIREMENT) ================= -->
+  <div id="success-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 hidden">
+    <div class="glass rounded-3xl max-w-lg w-full p-8 border border-emerald-500/50 shadow-2xl text-center transform scale-95 transition-transform duration-300" id="success-modal-box">
+      <div class="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl border border-emerald-500/30">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      
+      <!-- BOLD BRIGHT SUCCESS MESSAGE -->
+      <h2 class="text-2xl font-black text-emerald-400 mb-4"> 👍 Thanks for choosing K-POP Multi-Agency Portal!</h2>
+      
+      <div class="text-slate-300 text-sm md:text-base leading-relaxed space-y-4">
+        <p class="font-black text-white text-md">
+          Please open your Gmail app to check the email you submitted in the inquiry form, as you will receive feedback directly from the industry management agency otherwise after 24 hours of inquiry submission, and still you get no feedback, then I want you to come to go to the live website and follow the default process and then chat with agent, this is 100% guarantee. 🤗🤗🤗
+        </p>
+      </div>
+      
+      <button onclick="closeSuccessModal()" class="mt-6 px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition">
+        Understood & Close
+      </button>
     </div>
-    <div id="page-companies" class="page-view pt-28 lg:pt-32 pb-20">
-        <div class="max-w-7xl mx-auto px-4"><div class="flex flex-col md:flex-row justify-between mb-8 border-b border-slate-800 pb-6 gap-4"><div><h1 class="text-3xl font-bold">Entertainment Companies</h1><p class="text-slate-400 text-sm mt-2">Browse agencies and their complete rosters.</p></div><input type="text" id="searchInput" placeholder="Search..." class="w-full md:w-72 bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-sm"></div><div id="companiesGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-8"></div></div>
-    </div>
+  </div>
 
-    <div id="page-inquiry" class="page-view pt-28 lg:pt-32 pb-20">
-        <div class="max-w-3xl mx-auto px-4"><div class="glass-panel p-8 rounded-2xl"><h1 class="text-2xl font-bold mb-8">Submit Official Inquiry</h1><form action="https://formspree.io/f/xykrybvv" method="POST"><input type="hidden" id="formTarget" name="Target_Entity" value=""><div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"><div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Full Name</label><input type="text" name="Full_Name" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3"></div><div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Email</label><input type="email" name="Email" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3"></div></div><button type="submit" class="w-full bg-pink-600 py-4 rounded-lg font-bold">Submit to Admin Pipeline</button></form></div></div>
-    </div>
+  <!-- ================= TOAST CONTAINER ================= -->
+  <div id="toast-container" class="fixed bottom-20 right-4 z-50 space-y-2 pointer-events-none"></div>
 
-    <div id="page-dashboard" class="page-view pt-28 lg:pt-32 pb-20"><div class="max-w-7xl mx-auto px-4"><h1 class="text-3xl font-bold mb-8">User Dashboard</h1><div class="glass-panel p-10 text-center rounded-2xl border border-slate-700"><p class="text-slate-400">No active inquiries found.</p></div></div></div>
-    <div id="page-login" class="page-view pt-28 lg:pt-32 pb-20"><div class="max-w-md mx-auto px-4"><div class="glass-panel p-8 rounded-2xl text-center"><h1 class="text-2xl font-bold mb-8">Welcome Back</h1><form onsubmit="event.preventDefault(); switchPage('dashboard');" class="space-y-4"><input type="email" required placeholder="Email" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3"><input type="password" required placeholder="Password" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3"><button type="submit" class="w-full bg-pink-600 py-3 rounded-lg font-bold">Login</button></form></div></div></div>
+  <!-- ================= STICKY MOBILE BOTTOM BAR ================= -->
+  <footer class="md:hidden fixed bottom-0 left-0 right-0 glass h-14 border-t border-slate-800 flex justify-around items-center z-40 px-2">
+    <button onclick="navigateTo('home')" class="flex flex-col items-center justify-center text-slate-400 hover:text-neonpink transition">
+      <i class="fa-solid fa-house text-lg"></i>
+      <span class="text-[9px]">Home</span>
+    </button>
+    <button onclick="navigateTo('companies')" class="flex flex-col items-center justify-center text-slate-400 hover:text-neonpink transition">
+      <i class="fa-solid fa-building text-lg"></i>
+      <span class="text-[9px]">Agencies</span>
+    </button>
+    <button onclick="navigateTo('artists')" class="flex flex-col items-center justify-center text-slate-400 hover:text-neonpink transition">
+      <i class="fa-solid fa-music text-lg"></i>
+      <span class="text-[9px]">Idols</span>
+ </button>
+    <button onclick="navigateTo('inquiries')" class="flex flex-col items-center justify-center text-slate-400 hover:text-neonpink transition">
+      <i class="fa-solid fa-file-signature text-lg"></i>
+      <span class="text-[9px]">Inquire</span>
+    </button>
+    <button onclick="navigateTo('dashboard')" class="flex flex-col items-center justify-center text-slate-400 hover:text-neonpink transition">
+      <i class="fa-solid fa-id-badge text-lg"></i>
+      <span class="text-[9px]">Workspace</span>
+    </button>
+  </footer>
 
-    <footer class="border-t border-slate-800 bg-slate-950 py-12 text-center text-slate-500 text-xs px-4">
-        <p>&copy; 2026 K-Pop Wave Portal. All Rights Reserved.</p>
-    </footer>
+  <!-- ================= GOOGLE TRANSLATE SDK ================= -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        multilanguagePage: true
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-    <script>
-        function switchPage(pageId) {
-            document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
-            document.getElementById('page-' + pageId).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+  <!-- ================= TAWK.TO SCRIPT ================= -->
+  <!--Start of Tawk.to Script-->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6a552c0bf9a2241d47e6e3f3/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
+  <!--End of Tawk.to Script-->
+
+  <!-- ================= JAVASCRIPT LOGIC AND CORE DATABASE ================= -->
+  <script>
+    // State variables
+    let selectedArtist = null;
+
+    // Database arrays representing all requested agency structures
+    const initialCompanies = [
+      { id: 'hybe', name: 'HYBE', tier: 'Big 4', color: '#111218', parent: 'HYBE Corp', artistsCount: 5, desc: 'Representing global phenomena BTS, SEVENTEEN, NewJeans, LE SSERAFIM, TXT, and ENHYPEN.', genres: ['K-Pop', 'Hip Hop', 'R&B'] },
+      { id: 'sm', name: 'SM Entertainment', tier: 'Big 4', color: '#e10613', parent: 'Kakao', artistsCount: 4, desc: 'Pioneering agency home to EXO, NCT, aespa, Red Velvet, and RIIZE.', genres: ['K-Pop', 'Vocal Dance'] },
+      { id: 'jyp', name: 'JYP Entertainment', tier: 'Big 4', color: '#1c1c1e', parent: 'JYP Corp', artistsCount: 4, desc: 'Global industry giants managing TWICE, Stray Kids, ITZY, NMIXX, and Day6.', genres: ['K-Pop', 'R&B', 'Electronic'] },
+      { id: 'yg', name: 'YG Entertainment', tier: 'Big 4', color: '#000000', parent: 'YG Corp', artistsCount: 3, desc: 'Powerhouse hip-hop label managing BLACKPINK, BABYMONSTER, and TREASURE.', genres: ['Hip Hop', 'K-Pop', 'EDM'] },
+      { id: 'fnc', name: 'FNC Entertainment', tier: 'Major / Mid-Tier', color: '#e65100', parent: 'FNC Group', artistsCount: 3, desc: 'Specializing in premium idol bands including CNBLUE, SF9, N.Flying, and P1Harmony.', genres: ['K-Rock', 'K-Pop', 'Acting'] },
+      { id: 'starship', name: 'Starship Entertainment', tier: 'Major / Mid-Tier', color: '#0f2c59', parent: 'Kakao Entertainment', artistsCount: 3, desc: 'Managing global chart-toppers IVE, MONSTA X, and King Kong by Starship actors.', genres: ['K-Pop', 'Acting', 'Ballads'] },
+      { id: 'ist', name: 'IST Entertainment', tier: 'Major / Mid-Tier', color: '#2b2a29', parent: 'Kakao Entertainment', artistsCount: 2, desc: 'Home of iconic boy groups like The Boyz and veteran legends Apink.', genres: ['K-Pop', 'Vocal'] },
+      { id: 'cube', name: 'Cube Entertainment', tier: 'Major / Mid-Tier', color: '#0d2240', parent: 'Independent', artistsCount: 2, desc: 'Independent entertainment representing global queens (G)I-DLE and BTOB.', genres: ['K-Pop', 'Dance'] },
+      { id: 'kq', name: 'KQ Entertainment', tier: 'Independent / Specialized', color: '#4a148c', parent: 'Independent', artistsCount: 2, desc: 'Highly creative performance-focused agency managing ATEEZ and xikers.', genres: ['K-Pop', 'Performance'] },
+      { id: 'rbw', name: 'RBW', tier: 'Major / Mid-Tier', color: '#0d47a1', parent: 'RBW Group', artistsCount: 2, desc: 'Vocal production powerhouse representing MAMAMOO and ONEUS.', genres: ['K-Pop', 'Vocal'] },
+      { id: 'wm', name: 'WM Entertainment', tier: 'Major / Mid-Tier', color: '#01579b', parent: 'RBW Subsidiary', artistsCount: 2, desc: 'Specialized indie-pop label managing Oh My Girl and ONF.', genres: ['K-Pop', 'Electronic'] },
+      { id: 'woollim', name: 'Woollim Entertainment', tier: 'Major / Mid-Tier', color: '#212121', parent: 'Independent', artistsCount: 2, desc: 'Pioneering synchronized dance routines with INFINITE and Rocket Punch.', genres: ['K-Pop', 'Dance'] },
+      { id: 'wakeone', name: 'WAKEONE', tier: 'Major / Mid-Tier', color: '#1a237e', parent: 'CJ ENM', artistsCount: 2, desc: 'Official management for survival program groups Kep1er and ZEROBASEONE.', genres: ['K-Pop', 'Performance'] },
+      { id: 'fantagio', name: 'Fantagio', tier: 'Major / Mid-Tier', color: '#ffb300', parent: 'Independent', artistsCount: 3, desc: 'Home to ASTRO, Weki Meki, and top acting rosters like Cha Eun-woo.', genres: ['K-Pop', 'Acting'] },
+      { id: 'jellyfish', name: 'Jellyfish Entertainment', tier: 'Major / Mid-Tier', color: '#006064', parent: 'Independent', artistsCount: 2, desc: 'Managing diverse conceptual boy groups like VIXX and soloist Kim Se-jeong.', genres: ['K-Pop', 'Acting'] },
+      { id: 'dsp', name: 'DSP Media', tier: 'Major / Mid-Tier', color: '#1e3c72', parent: 'RBW Group', artistsCount: 2, desc: 'Historic agency behind DSP heritage, active with co-ed groups like KARD.', genres: ['K-Pop', 'Dance'] },
+      { id: 'brandnew', name: 'Brand New Music', tier: 'Independent / Specialized', color: '#311b92', parent: 'Independent', artistsCount: 1, desc: 'Leading hip-hop and dance crossover label home to AB6IX.', genres: ['K-Hip Hop', 'K-Pop'] },
+      { id: 'attrakt', name: 'Attrakt', tier: 'Independent / Specialized', color: '#b71c1c', parent: 'Independent', artistsCount: 1, desc: 'Viral entertainment company representing FIFTY FIFTY.', genres: ['K-Pop'] },
+      { id: 'modhaus', name: 'Modhaus', tier: 'Independent / Specialized', color: '#000a12', parent: 'Independent', artistsCount: 2, desc: 'Tech-centric agency managing tripleS and ARTMS with visual trading mechanics.', genres: ['K-Pop', 'Electronic'] },
+      { id: 'yuehua', name: 'Yuehua Korea', tier: 'Major / Mid-Tier', color: '#d81b60', parent: 'Yuehua Entertainment', artistsCount: 2, desc: 'International agency managing EVERGLOW and TEMPEST.', genres: ['K-Pop', 'Dance'] },
+      { id: 'highup', name: 'High Up Entertainment', tier: 'Independent / Specialized', color: '#f50057', parent: 'Independent', artistsCount: 1, desc: 'Hit producer label represented by STAYC.', genres: ['K-Pop', 'Pop'] },
+      { id: 'fnf', name: 'F&F Entertainment', tier: 'Independent / Specialized', color: '#4a148c', parent: 'F&F Corp', artistsCount: 1, desc: 'Newly launched entertainment agency representing girl group UNIS.', genres: ['K-Pop'] },
+      { id: 'topmedia', name: 'TOP Media', tier: 'Major / Mid-Tier', color: '#ff6f00', parent: 'Independent', artistsCount: 1, desc: 'Performance agency managing MCND.', genres: ['K-Pop'] },
+      { id: 'aroundus', name: 'Around Us Entertainment', tier: 'Independent / Specialized', color: '#37474f', parent: 'Independent', artistsCount: 1, desc: 'Established by members of HIGHLIGHT to represent their team.', genres: ['K-Pop'] },
+      { id: 'c9', name: 'C9 Entertainment', tier: 'Major / Mid-Tier', color: '#0d47a1', parent: 'Independent', artistsCount: 2, desc: 'Managing specialized conceptual groups CIX and EPEX.', genres: ['K-Pop'] },
+      { id: 'mld', name: 'MLD Entertainment', tier: 'Major / Mid-Tier', color: '#004d40', parent: 'Independent', artistsCount: 1, desc: 'Accredited international agency representing LAPILLUS.', genres: ['K-Pop'] },
+      { id: 'morevision', name: 'More Vision', tier: 'Independent / Specialized', color: '#212121', parent: 'Independent', artistsCount: 1, desc: 'Jay Park\'s premium hip hop and dance label.', genres: ['K-Hip Hop', 'Dance'] },
+      { id: 'pnation', name: 'P NATION', tier: 'Independent / Specialized', color: '#e65100', parent: 'Independent', artistsCount: 2, desc: 'Founded by PSY, representing Crush and Heize.', genres: ['K-Hip Hop', 'R&B'] },
+      { id: 'aomg', name: 'AOMG', tier: 'Independent / Specialized', color: '#263238', parent: 'CJ ENM Affiliate', artistsCount: 2, desc: 'Premium urban hip-hop label home to Loco and Gray.', genres: ['K-Hip Hop', 'R&B'] },
+      { id: 'h1ghr', name: 'H1GHR MUSIC', tier: 'Independent / Specialized', color: '#1a237e', parent: 'Independent', artistsCount: 2, desc: 'International hip hop label managing pH-1 and Big Naughty.', genres: ['K-Hip Hop', 'R&B'] },
+      { id: 'konnect', name: 'Konnect Entertainment', tier: 'Independent / Specialized', color: '#3e2723', parent: 'Independent', artistsCount: 1, desc: 'Established by Kang Daniel for custom fan-centric projects.', genres: ['K-Pop'] },
+      { id: 'nch', name: 'n.CH Entertainment', tier: 'Major / Mid-Tier', color: '#006064', parent: 'Independent', artistsCount: 1, desc: 'Agency managing rising boy group n.SSign.', genres: ['K-Pop'] },
+      { id: 'antenna', name: 'Antenna', tier: 'Independent / Specialized', color: '#000000', parent: 'Kakao Entertainment', artistsCount: 2, desc: 'Elite singer-songwriter agency home to Kyuhyun and Lee Hyo-ri.', genres: ['K-Pop', 'Acoustic'] },
+      { id: 'stonemusic', name: 'Stone Music', tier: 'Major / Mid-Tier', color: '#1a237e', parent: 'CJ ENM', artistsCount: 1, desc: 'Premium music publisher representing TO1.', genres: ['K-Pop'] },
+      { id: 'cjees', name: 'C-JeS Studios', tier: 'Actor Management', color: '#263238', parent: 'Independent', artistsCount: 2, desc: 'High end entertainment housing Solji and Gummy.', genres: ['Vocal', 'Acting'] },
+      { id: 'bh', name: 'BH Entertainment', tier: 'Actor Management', color: '#37474f', parent: 'Independent', artistsCount: 2, desc: 'Premium actor house representing Han Hyo-joo and Park Bo-young.', genres: ['Acting'] },
+      { id: 'soop', name: 'Management SOOP', tier: 'Actor Management', color: '#424242', parent: 'Kakao Entertainment', artistsCount: 2, desc: 'Industry giant actor label housing Gong Yoo and Suzy.', genres: ['Acting'] },
+      { id: 'sublime', name: 'Sublime', tier: 'Actor Management', color: '#1b5e20', parent: 'Independent', artistsCount: 2, desc: 'Representing Song Kang-ho and Tiffany Young.', genres: ['Acting', 'Pop'] }
+    ];
+
+    const initialArtists = [
+      { id: 'bts', companyId: 'hybe', name: 'BTS', type: 'Boy Group', debut: 2013, fandom: 'ARMY', genre: 'K-Pop', studioColor: '#673ab7', bio: 'The global music phenomenon leading record charts and international philanthropy campaigns.' },
+      { id: 'blackpink', companyId: 'yg', name: 'BLACKPINK', type: 'Girl Group', debut: 2016, fandom: 'BLINK', genre: 'K-Pop', studioColor: '#e91e63', bio: 'Record-shattering global female group representing YG Entertainment.' },
+      { id: 'astro', companyId: 'fantagio', name: 'ASTRO', type: 'Boy Group', debut: 2016, fandom: 'AROHA', genre: 'K-Pop', studioColor: '#ffc107', bio: 'Highly talented vocal group under Fantagio. Home of Cha Eun-woo.' },
+      { id: 'cnblue', companyId: 'fnc', name: 'CNBLUE', type: 'Boy Group', debut: 2010, fandom: 'BOICE', genre: 'K-Rock', studioColor: '#0d47a1', bio: 'Historic Pop Rock band under FNC Entertainment.' },
+      { id: 'sf9', companyId: 'fnc', name: 'SF9', type: 'Boy Group', debut: 2016, fandom: 'Fantasy', genre: 'K-Pop', studioColor: '#e65100', bio: 'Sleek, powerful performance boy group under FNC.' },
+      { id: 'twice', companyId: 'jyp', name: 'TWICE', type: 'Girl Group', debut: 2015, fandom: 'ONCE', genre: 'K-Pop', studioColor: '#ff5722', bio: 'Asia\'s supreme girl group producing hits under JYP Entertainment.' },
+      { id: 'straykids', companyId: 'jyp', name: 'Stray Kids', type: 'Boy Group', debut: 2018, fandom: 'STAY', genre: 'K-Pop', studioColor: '#4caf50', bio: 'Self-producing chart-topping boy group under JYP.' },
+      { id: 'aespa', companyId: 'sm', name: 'aespa', type: 'Girl Group', debut: 2020, fandom: 'MY', genre: 'K-Pop', studioColor: '#00bcd4', bio: 'Metaverse-inspired conceptual vocalists under SM Entertainment.' },
+      { id: 'riize', companyId: 'sm', name: 'RIIZE', type: 'Boy Group', debut: 2023, fandom: 'BRIIZE', genre: 'K-Pop', studioColor: '#3f51b5', bio: 'Dynamic young rising stars under SM.' },
+      { id: 'theboyz', companyId: 'ist', name: 'The Boyz', type: 'Boy Group', debut: 2017, fandom: 'THE B', genre: 'K-Pop', studioColor: '#311b92', bio: 'Performance powerhouse under IST Entertainment.' },
+      { id: 'gidle', companyId: 'cube', name: 'G(I-DLE)', type: 'Girl Group', debut: 2018, fandom: 'Neverland', genre: 'K-Pop', studioColor: '#7b1fa2', bio: 'Independent hitmakers writing their own records at Cube.' },
+      { id: 'ateez', companyId: 'kq', name: 'ATEEZ', type: 'Boy Group', debut: 2018, fandom: 'ATINY', genre: 'K-Pop', studioColor: '#6a1b9a', bio: 'International touring icons under KQ Entertainment.' },
+      { id: 'crush', companyId: 'pnation', name: 'Crush', type: 'Soloist', debut: 2014, fandom: 'CrushBomb', genre: 'K-Hip Hop', studioColor: '#3e2723', bio: 'Superb R&B soloist producing timeless records at P Nation.' },
+      { id: 'kyuhyun', companyId: 'antenna', name: 'Kyuhyun', type: 'Soloist', debut: 2006, fandom: 'KYUpiter', genre: 'K-Pop', studioColor: '#1a237e', bio: 'Legendary vocalist of Super Junior under Antenna.' },
+      { id: 'songkangho', companyId: 'sublime', name: 'Song Kang-ho', type: 'Actor', debut: 1996, fandom: 'Film Lovers', genre: 'K-Drama', studioColor: '#1b5e20', bio: 'Academy-Award winning star of Parasite managed by Sublime.' }
+    ];
+
+    // Local Storage Setup
+    function initLocalStorage() {
+      if (!localStorage.getItem('portal_companies')) {
+        localStorage.setItem('portal_companies', JSON.stringify(initialCompanies));
+      }
+      if (!localStorage.getItem('portal_artists')) {
+        localStorage.setItem('portal_artists', JSON.stringify(initialArtists));
+      }
+      if (!localStorage.getItem('portal_inquiries')) {
+        localStorage.setItem('portal_inquiries', JSON.stringify([
+          { id: 'inq-1', fullname: 'John Doe', email: 'john@example.com', artist: 'BTS', agency: 'HYBE', type: 'Official Membership Card Booking', text: 'I would like to apply for the official ARMY card.', date: '2026-07-15', status: 'Pending Review' }
+        ]));
+      }
+      if (!localStorage.getItem('portal_payments')) {
+        localStorage.setItem('portal_payments', JSON.stringify([]));
+      }
+    }
+
+    function getStored(key) {
+      return JSON.parse(localStorage.getItem(key)) || [];
+    }
+    function setStored(key, val) {
+      localStorage.setItem(key, JSON.stringify(val));
+    }
+
+    // Navigations
+    function navigateTo(pageId) {
+      document.querySelectorAll('.page-section').forEach(section => {
+        section.classList.add('hidden');
+      });
+      const activeSection = document.getElementById('page-' + pageId);
+      if (activeSection) {
+        activeSection.classList.remove('hidden');
+      }
+      
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('text-neonpink');
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (pageId === 'dashboard') {
+        renderDashboardData();
+      } else if (pageId === 'admin') {
+        renderAdminDashboard();
+      } else if (pageId === 'companies') {
+        renderCompaniesList();
+      } else if (pageId === 'artists') {
+        renderArtistsList();
+      }
+    }
+// Theme Toggle
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    themeToggleBtn.addEventListener('click', () => {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon text-md text-slate-800"></i>';
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun text-md text-yellow-400"></i>';
+      }
+    });
+
+    function loadTheme() {
+      const stored = localStorage.getItem('theme') || 'dark';
+      if (stored === 'light') {
+        document.documentElement.classList.remove('dark');
+        themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon text-md text-slate-800"></i>';
+      }
+    }
+
+    // Toast Notifications
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `glass p-4 rounded-xl border shadow-lg flex items-center space-x-2 text-xs font-bold transition duration-300 transform translate-y-2 max-w-sm pointer-events-auto`;
+      if (type === 'success') {
+        toast.classList.add('border-emerald-500', 'text-emerald-400');
+        toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>${message}</span>`;
+      } else {
+        toast.classList.add('border-blue-500', 'text-electricblue');
+        toast.innerHTML = `<i class="fa-solid fa-bell"></i> <span>${message}</span>`;
+      }
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    // Build Cards
+    function createCompanyCard(company) {
+      const card = document.createElement('div');
+      card.className = 'glass p-6 rounded-2xl border border-slate-800 hover:border-neonpink transition duration-300 flex flex-col justify-between cursor-pointer';
+      card.onclick = () => viewCompanyDetail(company.id);
+      card.innerHTML = `
+        <div>
+          <div class="flex justify-between items-start mb-4">
+            <div class="w-14 h-14 rounded-xl flex items-center justify-center font-black text-white text-lg shadow-inner" style="background-color: ${company.color}">
+              ${company.name.slice(0, 2).toUpperCase()}
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-neonpink/10 text-neonpink border border-neonpink/20">${company.tier}</span>
+          </div>
+          <h3 class="text-xl font-extrabold text-white mb-2 uppercase">${company.name}</h3>
+          <p class="text-xs text-slate-400 line-clamp-2 mb-4">${company.desc}</p>
+        </div>
+        <div class="flex items-center justify-between pt-4 border-t border-slate-800 text-xs text-slate-400">
+          <span>Artists: <strong class="text-white">${company.artistsCount}</strong></span>
+          <span class="text-neonpink font-bold">View Profile <i class="fa-solid fa-chevron-right ml-1"></i></span>
+        </div>
+      `;
+      return card;
+      }
+      function createArtistCard(artist) {
+      const outerCard = document.createElement('div');
+      outerCard.className = 'flip-card h-80 w-full cursor-pointer';
+      const companies = getStored('portal_companies');
+      const comp = companies.find(c => c.id === artist.companyId) || { name: 'Independent' };
+
+      outerCard.innerHTML = `
+        <div class="flip-card-inner w-full h-full duration-700">
+          <!-- Front Face -->
+          <div class="flip-card-front p-5 flex flex-col justify-between border border-slate-800 shadow-xl" style="background: linear-gradient(135deg, ${artist.studioColor} 0%, #060913 100%);">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <span class="px-2.5 py-0.5 rounded-full text-[9px] font-black bg-white/10 text-white border border-white/20 uppercase">${artist.type}</span>
+                <i class="fa-solid fa-microphone text-slate-400/50"></i>
+              </div>
+              <h3 class="text-2xl font-black text-white leading-tight uppercase text-left">${artist.name}</h3>
+              <p class="text-xs text-slate-300 font-bold uppercase text-left">${comp.name}</p>
+            </div>
+            <div class="flex justify-between items-center text-[10px] text-white/60 pt-4 border-t border-white/10">
+              <span>Debut: <strong>${artist.debut}</strong></span>
+              <span class="bg-neonpink text-white font-black px-2.5 py-1 rounded">FLIP <i class="fa-solid fa-arrows-rotate"></i></span>
+            </div>
+          </div>
+          <!-- Back Face -->
+          <div class="flip-card-back p-5 bg-slate-900 border border-neonpink/50 flex flex-col justify-between text-left">
+            <div>
+              <h4 class="font-black text-white mb-1 uppercase">${artist.name} Fandom</h4>
+              <p class="text-xs text-slate-300 line-clamp-4 leading-relaxed mb-4">${artist.bio}</p>
+            </div>
+            <div class="space-y-2">
+              <button onclick="event.stopPropagation(); navigateToArtistDetail('${artist.id}')" class="w-full py-2 bg-gradient-to-r from-neonpink to-violetglow rounded-lg text-[11px] font-black text-white tracking-wider uppercase">Profile Options</button>
+              <button onclick="event.stopPropagation(); prefillDirectInquiry('${artist.id}', '${artist.companyId}')" class="w-full py-2 bg-slate-800 border border-slate-700 rounded-lg text-[11px] font-bold text-slate-300 uppercase">Send Inquiry</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      outerCard.addEventListener('click', function(e) {
+        if(e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+          this.classList.toggle('flipped');
         }
-        function openInquiry(targetName) { document.getElementById('formTarget').value = targetName; switchPage('inquiry'); }
-        const database = [
-            { name: "HYBE Corporation", tier: "Tier 1", subsidiaries: [{ label: "Big Hit", artists: "BTS, TXT" }, { label: "Pledis", artists: "SEVENTEEN" }] },
-            { name: "SM Entertainment", tier: "Tier 1", subsidiaries: [{ label: "Main", artists: "aespa, RIIZE" }, { label: "NCT", artists: "NCT 127, Dream" }] },
-            { name: "FNC Entertainment", tier: "Tier 2", subsidiaries: [{ label: "Band", artists: "CNBLUE, FTISLAND" }, { label: "Dance", artists: "SF9, P1Harmony" }] },
-            { name: "Fantagio", tier: "Tier 3", subsidiaries: [{ label: "Main", artists: "ASTRO, Weki Meki" }] }
-        ];
-        const grid = document.getElementById('companiesGrid');
-        function renderDirectory(data) {
-            grid.innerHTML = '';
-            data.forEach(c => {
-                let s = c.subsidiaries.map(sub => `<div class="mt-4 p-4 bg-slate-900 rounded-lg flex justify-between"><div><p class="text-xs text-pink-400 font-bold">${sub.label}</p><p class="text-sm">${sub.artists}</p></div><button onclick="openInquiry('${sub.artists}')" class="bg-slate-800 px-3 py-1 rounded text-xs border border-slate-600">Select</button></div>`).join('');
-                grid.innerHTML += `<div class="glass-panel p-6 rounded-2xl border-t-4 border-pink-500"><h2 class="text-xl font-bold">${c.name}</h2>${s}</div>`;
-            });
+      });
+      return outerCard;
+    }
+
+    // Populate Lists
+    function populateHomepage() {
+      const companies = getStored('portal_companies');
+      const artists = getStored('portal_artists');
+
+      const compGrid = document.getElementById('featured-companies-grid');
+      const artGrid = document.getElementById('featured-artists-grid');
+
+      compGrid.innerHTML = '';
+      companies.slice(0, 6).forEach(c => compGrid.appendChild(createCompanyCard(c)));
+
+      artGrid.innerHTML = '';
+      artists.slice(0, 8).forEach(a => artGrid.appendChild(createArtistCard(a)));
+    }
+
+    // General Search
+    document.getElementById('global-search-input').addEventListener('input', function(e) {
+      const q = e.target.value.toLowerCase().trim();
+      const compGrid = document.getElementById('featured-companies-grid');
+      const artGrid = document.getElementById('featured-artists-grid');
+
+      if(!q) {
+        populateHomepage();
+        return;
+      }
+
+      const companies = getStored('portal_companies').filter(c => c.name.toLowerCase().includes(q));
+      const artists = getStored('portal_artists').filter(a => a.name.toLowerCase().includes(q) || a.fandom.toLowerCase().includes(q));
+
+      compGrid.innerHTML = '';
+      artGrid.innerHTML = '';
+
+      companies.forEach(c => compGrid.appendChild(createCompanyCard(c)));
+      artists.forEach(a => artGrid.appendChild(createArtistCard(a)));
+    });
+
+    // Chip Filter
+    function filterByChip(category) {
+      const artists = getStored('portal_artists');
+      const compGrid = document.getElementById('featured-companies-grid');
+      const artGrid = document.getElementById('featured-artists-grid');
+
+      compGrid.innerHTML = '';
+      artGrid.innerHTML = '';
+
+      if (category === 'All') {
+        populateHomepage();
+        return;
+      }
+
+      let filteredArtists = [];
+      if (category === 'Big 4') {
+        filteredArtists = artists.filter(a => ['bts', 'blackpink', 'twice', 'straykids', 'aespa', 'riize'].includes(a.id));
+      } else if (category === 'Mid-Tier') {
+        filteredArtists = artists.filter(a => !['bts', 'blackpink', 'twice', 'straykids', 'aespa', 'riize'].includes(a.id));
+      } else if (category === 'Boy Group') {
+        filteredArtists = artists.filter(a => a.type === 'Boy Group');
+      } else if (category === 'Girl Group') {
+        filteredArtists = artists.filter(a => a.type === 'Girl Group');
+      } else if (category === 'Soloist') {
+        filteredArtists = artists.filter(a => a.type === 'Soloist' || a.type === 'Actor');
+      }
+
+      filteredArtists.forEach(a => artGrid.appendChild(createArtistCard(a)));
+    }
+
+    // Render Directories
+    function renderCompaniesList() {
+      const grid = document.getElementById('all-companies-grid');
+      const search = document.getElementById('company-filter-search').value.toLowerCase();
+      const tier = document.getElementById('company-filter-tier').value;
+      const sort = document.getElementById('company-filter-sort').value;
+
+      let list = getStored('portal_companies');
+
+      if(search) list = list.filter(c => c.name.toLowerCase().includes(search));
+      if(tier !== 'All') list = list.filter(c => c.tier === tier);
+
+      if(sort === 'name-asc') list.sort((a,b) => a.name.localeCompare(b.name));
+      if(sort === 'name-desc') list.sort((a,b) => b.name.localeCompare(a.name));
+      if(sort === 'artists-desc') list.sort((a,b) => b.artistsCount - a.artistsCount);
+
+      grid.innerHTML = '';
+      list.forEach(c => grid.appendChild(createCompanyCard(c)));
+    }
+
+    document.getElementById('company-filter-search').addEventListener('input', renderCompaniesList);
+    document.getElementById('company-filter-tier').addEventListener('change', renderCompaniesList);
+    document.getElementById('company-filter-sort').addEventListener('change', renderCompaniesList);
+
+    function viewCompanyDetail(id) {
+      const companies = getStored('portal_companies');
+      const artists = getStored('portal_artists');
+      const comp = companies.find(c => c.id === id);
+      if(!comp) return;
+
+      document.getElementById('company-detail-name').textContent = comp.name.toUpperCase();
+      document.getElementById('company-detail-desc').textContent = comp.desc;
+      document.getElementById('company-detail-tier').textContent = comp.tier.toUpperCase();
+      document.getElementById('company-detail-parent').textContent = `Parent: ${comp.parent}`;
+
+      const logo = document.getElementById('company-detail-logo-block');
+      logo.style.backgroundColor = comp.color;
+      logo.textContent = comp.name.slice(0, 2).toUpperCase();
+
+      const subRoster = artists.filter(a => a.companyId === comp.id);
+      document.getElementById('stat-artists-count').textContent = subRoster.length;
+      document.getElementById('stat-groups-count').textContent = subRoster.filter(a => a.type.includes('Group')).length;
+      document.getElementById('stat-soloists-count').textContent = subRoster.filter(a => a.type === 'Soloist').length;
+      document.getElementById('stat-actors-count').textContent = subRoster.filter(a => a.type === 'Actor').length;
+window.activeCompanyRoster = subRoster;
+      filterCompanyRoster('All');
+      navigateTo('company-detail');
+    }
+
+    function filterCompanyRoster(type) {
+      const grid = document.getElementById('company-roster-grid');
+      let roster = window.activeCompanyRoster || [];
+
+      if(type !== 'All') {
+        roster = roster.filter(a => a.type.includes(type));
+      }
+
+      grid.innerHTML = '';
+      roster.forEach(a => grid.appendChild(createArtistCard(a)));
+    }
+
+    function renderArtistsList() {
+      const grid = document.getElementById('all-artists-grid');
+      const search = document.getElementById('artist-filter-search').value.toLowerCase();
+      const type = document.getElementById('artist-filter-type').value;
+      const genre = document.getElementById('artist-filter-genre').value;
+
+      let list = getStored('portal_artists');
+
+      if(search) list = list.filter(a => a.name.toLowerCase().includes(search));
+      if(type !== 'All') list = list.filter(a => a.type === type);
+      if(genre !== 'All') list = list.filter(a => a.genre === genre);
+
+      grid.innerHTML = '';
+      list.forEach(a => grid.appendChild(createArtistCard(a)));
+    }
+      document.getElementById('artist-filter-search').addEventListener('input', renderArtistsList);
+    document.getElementById('artist-filter-type').addEventListener('change', renderArtistsList);
+    document.getElementById('artist-filter-genre').addEventListener('change', renderArtistsList);
+
+    function navigateToArtistDetail(id) {
+      const artists = getStored('portal_artists');
+      const companies = getStored('portal_companies');
+      const artist = artists.find(a => a.id === id);
+      if(!artist) return;
+
+      selectedArtist = artist;
+
+      document.getElementById('artist-detail-title-name').textContent = artist.name.toUpperCase();
+      const comp = companies.find(c => c.id === artist.companyId) || { name: 'Independent' };
+      document.getElementById('artist-detail-company').textContent = comp.name.toUpperCase();
+      document.getElementById('artist-detail-debut').textContent = artist.debut;
+      document.getElementById('artist-detail-fandom').textContent = artist.fandom;
+      document.getElementById('artist-detail-type').textContent = artist.type;
+      document.getElementById('artist-detail-bio').textContent = artist.bio;
+
+      const avatar = document.getElementById('artist-avatar-block');
+      avatar.style.backgroundColor = artist.studioColor;
+      avatar.textContent = artist.name.slice(0, 2).toUpperCase();
+
+      document.getElementById('artist-profile-box').style.background = `linear-gradient(135deg, ${artist.studioColor} 0%, #060913 100%)`;
+
+      document.getElementById('quick-fav-idol').value = artist.name;
+      document.getElementById('quick-details').value = '';
+
+      navigateTo('artist-detail');
+    }
+
+    function prefillDirectInquiry(artistId, companyId) {
+      const artists = getStored('portal_artists');
+      const artist = artists.find(a => a.id === artistId);
+      if(!artist) return;
+      selectedArtist = artist;
+      navigateTo('inquiries');
+      populateInquiryDropdowns(artist.id, artist.companyId);
+      syncSelectionDetails();
+    }
+
+    function prefillInquiryForm(shortcut, custom = false) {
+      if(!selectedArtist) return;
+      navigateTo('inquiries');
+      populateInquiryDropdowns(selectedArtist.id, selectedArtist.companyId);
+
+      if(shortcut) {
+        document.getElementById('form-inquiry-type').value = shortcut;
+        document.getElementById('form-subject').value = `Facilitated Routing: ${shortcut}`;
+      }
+      toggleFormConditionalFields();
+      syncSelectionDetails();
+    }
+
+    function transferToFullInquiry() {
+      if(!selectedArtist) return;
+      const favIdol = document.getElementById('quick-fav-idol').value;
+      const details = document.getElementById('quick-details').value;
+
+      navigateTo('inquiries');
+      populateInquiryDropdowns(selectedArtist.id, selectedArtist.companyId);
+
+      document.getElementById('form-fav-idol').value = favIdol;
+      document.getElementById('form-message').value = details;
+      document.getElementById('form-subject').value = `Direct Fan Action for ${favIdol}`;
+      syncSelectionDetails();
+    }
+
+    // Inquiry Dropdowns sync
+    function populateInquiryDropdowns(artId = null, compId = null) {
+      const compSelect = document.getElementById('form-company-select');
+      const artSelect = document.getElementById('form-artist-select');
+
+      const companies = getStored('portal_companies');
+      const artists = getStored('portal_artists');
+
+      compSelect.innerHTML = '<option value="">-- Choose Label --</option>';
+      companies.forEach(c => {
+        compSelect.innerHTML += `<option value="${c.id}">${c.name.toUpperCase()}</option>`;
+      });
+
+      artSelect.innerHTML = '<option value="">-- Choose Artist Group --</option>';
+      artists.forEach(a => {
+        artSelect.innerHTML += `<option value="${a.id}">${a.name.toUpperCase()}</option>`;
+      });
+
+      if(compId) compSelect.value = compId;
+      if(artId) artSelect.value = artId;
+    }
+
+    function syncArtistDropdownFromCompany() {
+      const compId = document.getElementById('form-company-select').value;
+      const artSelect = document.getElementById('form-artist-select');
+      const artists = getStored('portal_artists');
+
+      artSelect.innerHTML = '<option value="">-- Choose Artist Group --</option>';
+      const filtered = compId ? artists.filter(a => a.companyId === compId) : artists;
+      filtered.forEach(a => {
+        artSelect.innerHTML += `<option value="${a.id}">${a.name.toUpperCase()}</option>`;
+      });
+      syncSelectionDetails();
+    }
+      function syncSelectionDetails() {
+      const artId = document.getElementById('form-artist-select').value;
+      const alertBox = document.getElementById('inquiry-selection-alert');
+      const cardBox = document.getElementById('inquiry-selected-card');
+
+      if(!artId) {
+        alertBox.classList.remove('hidden');
+        cardBox.classList.add('hidden');
+        return;
+      }
+
+      const artists = getStored('portal_artists');
+      const artist = artists.find(a => a.id === artId);
+      if(artist) {
+        selectedArtist = artist;
+        alertBox.classList.add('hidden');
+        cardBox.classList.remove('hidden');
+
+        document.getElementById('inquiry-artist-name').textContent = artist.name.toUpperCase();
+        document.getElementById('inquiry-artist-avatar').style.backgroundColor = artist.studioColor;
+        document.getElementById('inquiry-artist-avatar').textContent = artist.name.slice(0, 2).toUpperCase();
+        document.getElementById('inquiry-registry-id').textContent = `#KP-${artist.id.toUpperCase()}-${artist.debut}`;
+      }
+    }
+
+    function toggleFormConditionalFields() {
+      const type = document.getElementById('form-inquiry-type').value;
+      document.getElementById('cond-membership').classList.add('hidden');
+      document.getElementById('cond-concert').classList.add('hidden');
+
+      if(type.includes('Membership') || type.includes('Upgrade')) {
+        document.getElementById('cond-membership').classList.remove('hidden');
+      } else if(type.includes('Ticketing') || type.includes('Concert')) {
+        document.getElementById('cond-concert').classList.remove('hidden');
+      }
+    }
+
+    // Save Draft
+    function saveInquiryDraft() {
+      const fullname = document.getElementById('form-fullname').value;
+      const email = document.getElementById('form-email').value;
+      const artistVal = document.getElementById('form-artist-select').value;
+      const typeVal = document.getElementById('form-inquiry-type').value;
+      const message = document.getElementById('form-message').value;
+
+      if (!fullname || !email) {
+        showToast('Full name and email are required to save drafts!', 'info');
+        return;
+      }
+
+      const list = getStored('portal_inquiries');
+      list.unshift({
+        id: 'inq-' + Date.now(),
+        fullname: fullname,
+        email: email,
+        artist: artistVal ? artistVal.toUpperCase() : 'GENERAL',
+        agency: 'Draft Status',
+        type: typeVal,
+        text: message,
+        date: new Date().toISOString().split('T')[0],
+        status: 'Draft Save'
+      });
+      setStored('portal_inquiries', list);
+      showToast('Draft successfully secured in Workspace.');
+    }
+
+    // Formspree API submission handler
+    const inquiryForm = document.getElementById('kpop-inquiry-form');
+    inquiryForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const fullname = document.getElementById('form-fullname').value;
+      const email = document.getElementById('form-email').value;
+      const artistSelect = document.getElementById('form-artist-select');
+      const artistText = artistSelect.options[artistSelect.selectedIndex]?.text || 'General';
+      const companySelect = document.getElementById('form-company-select');
+      const companyText = companySelect.options[companySelect.selectedIndex]?.text || 'Independent';
+      const inquiryType = document.getElementById('form-inquiry-type').value;
+      const message = document.getElementById('form-message').value;
+
+      const formData = new FormData(inquiryForm);
+      formData.set('Target Artist', artistText);
+      formData.set('Target Company', companyText);
+
+      showToast('Contacting Formspree Gateways...', 'info');
+        fetch(inquiryForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      }).then(res => {
+        if(res.ok) {
+          const list = getStored('portal_inquiries');
+          list.unshift({
+            id: 'inq-' + Date.now(),
+            fullname: fullname,
+            email: email,
+            artist: artistText,
+            agency: companyText,
+            type: inquiryType,
+            text: message,
+            date: new Date().toISOString().split('T')[0],
+            status: 'Pending Review'
+          });
+          setStored('portal_inquiries', list);
+
+          inquiryForm.reset();
+          syncSelectionDetails();
+          openSuccessModal();
+        } else {
+          showToast('Failed to validate connection with Formspree.', 'error');
         }
-        renderDirectory(database);
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            renderDirectory(database.filter(c => c.name.toLowerCase().includes(term)));
+      });
+    });
+
+    function openSuccessModal() {
+      document.getElementById('success-modal').classList.remove('hidden');
+      document.getElementById('success-modal-box').classList.remove('scale-95');
+    }
+    function closeSuccessModal() {
+      document.getElementById('success-modal').classList.add('hidden');
+      navigateTo('dashboard');
+    }
+
+    // Payments Logic
+    function openDirectPaymentFromForm() {
+      const artSelect = document.getElementById('form-artist-select');
+      const artistText = artSelect.options[artSelect.selectedIndex]?.text || 'General Service';
+      const type = document.getElementById('form-inquiry-type').value;
+
+      document.getElementById('pay-artist').textContent = artistText;
+      document.getElementById('pay-type').textContent = type;
+
+      if(type.includes('Upgrade') || type.includes('VIP')) {
+        document.getElementById('pay-total').textContent = '$3,000.00';
+      } else {
+        document.getElementById('pay-total').textContent = '$150.00';
+      }
+
+      navigateTo('checkout');
+    }
+
+    function syncPaymentGuideText() {
+      const method = document.getElementById('checkout-method').value;
+      const guide = document.getElementById('payment-guide-box');
+      document.getElementById('checkout-card-fields').classList.add('hidden');
+
+      if (method === 'Stripe Card Payment') {
+        document.getElementById('checkout-card-fields').classList.remove('hidden');
+        guide.textContent = 'Enter standard 16 digit dummy information to simulate transaction logs.';
+      } else if (method === 'PayPal') {
+        guide.textContent = 'Redirect links will appear in your registered email following successful sub-system validation.';
+      } else {
+        guide.textContent = 'Verify manual tracking receipts with our support assistants on live chat.';
+      }
+    }
+
+    function processLocalPayment(e) {
+      e.preventDefault();
+      const artistText = document.getElementById('pay-artist').textContent;
+      const typeText = document.getElementById('pay-type').textContent;
+      const method = document.getElementById('checkout-method').value;
+      const amount = document.getElementById('pay-total').textContent;
+
+      const list = getStored('portal_payments');
+      list.unshift({
+        id: 'pay-' + Date.now(),
+        desc: `${typeText} - ${artistText}`,
+        method: method,
+        amount: amount,
+        ref: 'TX-' + Math.floor(Math.random() * 90000000 + 10000000),
+        status: 'Cleared'
+      });
+      setStored('portal_payments', list);
+
+      showToast(`Simulated receipt of ${amount} successfully updated in database.`);
+      navigateTo('dashboard');
+    }
+
+    // Render Dashboard Panels
+    function renderDashboardData() {
+      const inquiries = getStored('portal_inquiries');
+      const payments = getStored('portal_payments');
+
+      document.getElementById('dash-stat-total').textContent = inquiries.length;
+      document.getElementById('dash-stat-pending').textContent = inquiries.filter(i => i.status.includes('Pending')).length;
+      document.getElementById('dash-stat-payments').textContent = payments.length;
+
+      const inqBody = document.getElementById('dashboard-inquiries-table-body');
+      inqBody.innerHTML = '';
+      if(inquiries.length === 0) {
+        inqBody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-500">No active inquiry records found.</td></tr>`;
+      } else {
+        inquiries.forEach(inq => {
+          inqBody.innerHTML += `
+            <tr class="border-b border-slate-800/50 hover:bg-slate-900/40">
+              <td class="py-3 px-2 font-bold text-white text-xs">${inq.artist}</td>
+              <td class="py-3 px-2 text-slate-300 text-xs">${inq.type}</td>
+              <td class="py-3 px-2 text-slate-400 text-xs">${inq.fullname}</td>
+              <td class="py-3 px-2 text-slate-400 text-xs">${inq.date}</td>
+              <td class="py-3 px-2 text-right"><span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-black">${inq.status}</span></td>
+            </tr>
+          `;
         });
-    </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <script type="text/javascript">function googleTranslateElementInit() { new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element'); }</script>
+      }
+        const payBody = document.getElementById('dashboard-payments-table-body');
+      payBody.innerHTML = '';
+      if(payments.length === 0) {
+        payBody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-500">No transactions recorded.</td></tr>`;
+      } else {
+        payments.forEach(pay => {
+          payBody.innerHTML += `
+            <tr class="border-b border-slate-800/50">
+              <td class="py-3 px-2 font-bold text-slate-200 text-xs">${pay.desc}</td>
+              <td class="py-3 px-2 text-slate-400 text-xs">${pay.method}</td>
+              <td class="py-3 px-2 text-emerald-400 font-extrabold text-xs">${pay.amount}</td>
+              <td class="py-3 px-2 font-mono text-slate-500 text-xs">${pay.ref}</td>
+              <td class="py-3 px-2 text-right"><span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-black">Success</span></td>
+            </tr>
+          `;
+        });
+      }
+    }
+
+    function clearAllLogs(type) {
+      setStored(type === 'inquiries' ? 'portal_inquiries' : 'portal_payments', []);
+      renderDashboardData();
+      showToast('Cache deleted successfully.');
+    }
+// Settings
+    function saveUserSettings(e) {
+      e.preventDefault();
+      const name = document.getElementById('settings-name').value;
+      const email = document.getElementById('settings-email').value;
+      localStorage.setItem('user_display_name', name);
+      localStorage.setItem('user_display_email', email);
+      showToast('Account data updated.');
+      renderDashboardData();
+    }
+
+    // Admin Dashboard Console
+    function renderAdminDashboard() {
+      const companies = getStored('portal_companies');
+      const artists = getStored('portal_artists');
+      const inquiries = getStored('portal_inquiries');
+      const payments = getStored('portal_payments');
+
+      document.getElementById('admin-stat-companies').textContent = companies.length;
+      document.getElementById('admin-stat-artists').textContent = artists.length;
+      document.getElementById('admin-stat-inquiries').textContent = inquiries.length;
+
+      let rev = 0;
+      payments.forEach(p => {
+        const val = parseFloat(p.amount.replace(/[^0-9.]/g, ''));
+        if(!isNaN(val)) rev += val;
+      });
+      document.getElementById('admin-stat-revenue').textContent = `$${rev.toLocaleString()}`;
+
+      const body = document.getElementById('admin-inquiries-table-body');
+      body.innerHTML = '';
+      if(inquiries.length === 0) {
+        body.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-500">No submissions found.</td></tr>`;
+      } else {
+        inquiries.forEach(inq => {
+          body.innerHTML += `
+            <tr class="border-b border-slate-800 hover:bg-slate-900/50">
+              <td class="py-3 px-2 text-xs font-bold text-white">${inq.fullname}</td>
+              <td class="py-3 px-2 text-xs text-slate-300">${inq.artist}</td>
+              <td class="py-3 px-2 text-xs text-slate-400 truncate max-w-[150px]">${inq.type}</td>
+              <td class="py-3 px-2"><span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[9px] font-black">${inq.status}</span></td>
+              <td class="py-3 px-2 text-right">
+                <button onclick="adminResolve('${inq.id}')" class="px-2 py-1 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black rounded text-[10px]">APPROVE</button>
+              </td>
+            </tr>
+          `;
+        });
+      }
+    }
+
+    function adminResolve(id) {
+      let list = getStored('portal_inquiries');
+      const item = list.find(i => i.id === id);
+      if(item) item.status = 'Approved';
+      setStored('portal_inquiries', list);
+      showToast('Resolved inquiry on administrative tracking panel.');
+      renderAdminDashboard();
+    }
+
+    function adminAddNewCompany(e) {
+      e.preventDefault();
+      const name = document.getElementById('admin-add-cname').value;
+      const tier = document.getElementById('admin-add-ctier').value;
+      const color = document.getElementById('admin-add-ccolor').value;
+      const desc = document.getElementById('admin-add-cdesc').value;
+
+      const list = getStored('portal_companies');
+      list.unshift({
+        id: name.toLowerCase().replace(/[^a-z0-9]/g, ''),
+        name: name,
+        tier: tier,
+        color: color,
+        parent: 'Admin Add',
+        artistsCount: 0,
+        desc: desc,
+        genres: ['K-Pop']
+      });
+      setStored('portal_companies', list);
+
+      document.getElementById('admin-add-company-form').reset();
+      showToast('Successfully added custom entertainment agency!');
+      populateHomepage();
+      renderCompaniesList();
+      renderAdminDashboard();
+    }
+
+    function resetWholeApp() {
+      localStorage.clear();
+      initLocalStorage();
+      populateHomepage();
+      showToast('Portal factory variables loaded successfully.');
+      navigateTo('home');
+    }
+
+    // Static tab controllers
+    function toggleAuthTab(tab) {
+      const login = document.getElementById('auth-login-form');
+      const register = document.getElementById('auth-register-form');
+      const loginTab = document.getElementById('tab-auth-login');
+      const regTab = document.getElementById('tab-auth-register');
+
+      if(tab === 'login') {
+        login.classList.remove('hidden');
+        register.classList.add('hidden');
+        loginTab.className = 'px-6 py-2 border-b-2 border-neonpink text-white font-bold text-sm';
+        regTab.className = 'px-6 py-2 border-b-2 border-transparent text-slate-400 font-bold text-sm';
+      } else {
+        register.classList.remove('hidden');
+        login.classList.add('hidden');
+        regTab.className = 'px-6 py-2 border-b-2 border-neonpink text-white font-bold text-sm';
+        loginTab.className = 'px-6 py-2 border-b-2 border-transparent text-slate-400 font-bold text-sm';
+      }
+                  }
+                       function handleAuthSubmit(e, type) {
+      e.preventDefault();
+      const name = type === 'register' ? document.getElementById('reg-name').value : 'Verified User';
+      const email = type === 'register' ? document.getElementById('reg-email').value : document.getElementById('login-email').value;
+
+      localStorage.setItem('user_display_name', name);
+      localStorage.setItem('user_display_email', email);
+
+      document.getElementById('auth-status-container').innerHTML = `
+        <div class="flex items-center space-x-2 text-xs">
+          <span class="text-slate-300 font-bold hidden sm:inline"><i class="fa-solid fa-user text-neonpink mr-1"></i> ${name}</span>
+          <button onclick="handleLogout()" class="px-2 py-1 bg-slate-800 rounded">Logout</button>
+        </div>
+      `;
+      showToast(`Welcome ${name}!`);
+      navigateTo('dashboard');
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('user_display_name');
+      localStorage.removeItem('user_display_email');
+      window.location.reload();
+    }
+
+    // Window Onload Init
+    window.onload = function () {
+      initLocalStorage();
+      loadTheme();
+      populateHomepage();
+      populateInquiryDropdowns();
+      
+      const name = localStorage.getItem('user_display_name');
+      if(name) {
+        document.getElementById('auth-status-container').innerHTML = `
+          <div class="flex items-center space-x-2 text-xs">
+          <span class="text-slate-300 font-bold hidden sm:inline"><i class="fa-solid fa-user text-neonpink mr-1"></i> ${name}</span>
+            <button onclick="handleLogout()" class="px-2 py-1 bg-slate-800 rounded">Logout</button>
+          </div>
+        `;
+      }
+    }
+  </script>
 </body>
 </html>
 
+      
+      
+      
